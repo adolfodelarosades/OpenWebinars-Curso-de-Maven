@@ -22,6 +22,8 @@
 
 [Video](https://www.youtube.com/watch?v=j0OnSAP-KtU&vl=es)
 
+[cmder](https://cmder.net/)
+
 * Descargar Maven de la página oficial 
 
    Descargaremos el archivo `Binary tar.gz archive`:
@@ -134,7 +136,69 @@ Maven ya viene instalado por defecto en Eclipse, pero si lo preferimos podemos p
 
    <img src="images/2-maven-mvn-2.png">
 
-## Compilación y empaquetado 9:46 
+## Compilación y empaquetado 9:46
+
+Para empezar con los comandos desde la consola nos descargamos el siguiente repositirio:
+
+[Apache Commons IO](https://github.com/apache/commons-io)
+
+En nuestra consola nos vamos a la carpeta donde hemos descargado el proyecto:
+
+```sh
+cd /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master
+
+mini-de-adolfo:commons-io-master adolfodelarosa$ pwd
+/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Podemos apreciar el contenido de este proyecto
+
+<img src="images/2-commons-io.png">
+
+### Comando `mvn compile`
+
+Crea el directorio `target` con los `.class` asociados a los fuentes que hay en la carpeta `src`
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn compile
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/50/commons-parent-50.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/50/commons-parent-50.pom (76 kB at 66 kB/s)
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+
+...
+
+[INFO] /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/src/main/java/org/apache/commons/io/IOExceptionList.java: Recompile with -Xlint:unchecked for details.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.019 s
+[INFO] Finished at: 2020-04-09T19:04:36+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+<img src="images/2-mvn-target.png">
+
+<img src="images/2-mvn-compile.png">
+
+Podemos apreciar como se ha generado la carpeta `target` y dentro de ella se han creado todos los archivos `.class`.
+
+### Comando `mvn clean`
+
+Borra todo el contenido del directorio `target` que es donde se almacenan todos los compilados del proyecto.
+
+
+### Comando `mvn clean`
+
+
+
+
+
 
 ## Instalación de librerías 4:18 
 
