@@ -8,10 +8,9 @@
 * Ejemplo práctico: Apache Maven 10:54 
 * Contenido adicional 2
 
-
 ## Introducción a Apache Maven 6:15 
 
-[Introducción a Apache Maven](pdfs/2.1_Introudccion_a_Apache_Maven.pdf)
+[Introducción a Apache Maven](pdfs/2.1_Introudcción_a_Apache_Maven.pdf)
 
 ## Instalación y configuración 10:04 
 
@@ -20,6 +19,8 @@
 [Pagina oficial de Maven](https://maven.apache.org/)
 
 ### Intalar Maven en un Mac desde la consola
+
+[Video](https://www.youtube.com/watch?v=j0OnSAP-KtU&vl=es)
 
 * Descargar Maven de la página oficial 
 
