@@ -32,7 +32,7 @@
 
    <img src="images/2-maven-download-2.png">
    
-* Vamos a mover nuestro archivo Maven a ``   
+* Vamos a mover nuestro archivo Maven al directorio `Applications`   
 
    ```
    mini-de-adolfo:~ adolfodelarosa$ cd Downloads/
