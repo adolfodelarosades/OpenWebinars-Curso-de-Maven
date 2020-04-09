@@ -87,47 +87,52 @@ Maven ya viene instalado por defecto en Eclipse, pero si lo preferimos podemos p
 
 * Para hacer esto vamos a *Preferencias/Maven/Instalación* y a añadimos nuestra versión:
 
-<img src="images/2-maven-eclipse.png">
+   <img src="images/2-maven-eclipse.png">
 
 * Para comprobar que todo va bien podemos descargar el siguiente proyecto Maven y abrirlo desde Eclipse.
 
-https://github.com/jitpack/maven-modular
+   https://github.com/jitpack/maven-modular
 
 * Importamos un proyecto Maven
 
-<img src="images/2-eclipse-import.png">
+   <img src="images/2-eclipse-import.png">
 
-<img src="images/2-eclipse-proyecto-maven.png">
+   <img src="images/2-eclipse-proyecto-maven.png">
 
 ### Visualizarlo desde la consola
 
-Desde la consola podemos ubicarnos donde se encuentra el proyecto:
+* Desde la consola podemos ubicarnos donde se encuentra el proyecto:
 
+   `cd /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/maven-modular-master`
 
-`cd /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/maven-modular-master`
+* Podemos ver la estructura del proyecto
 
-```sh
-mini-de-adolfo:maven-modular-master adolfodelarosa$ ls
-LICENSE		README.md	module1		module2		pom.xml
-mini-de-adolfo:maven-modular-master adolfodelarosa$ cd module1
-mini-de-adolfo:module1 adolfodelarosa$ ls
-pom.xml	src	target
-mini-de-adolfo:module1 adolfodelarosa$ cd ..
-mini-de-adolfo:maven-modular-master adolfodelarosa$ cd module2
-mini-de-adolfo:module2 adolfodelarosa$ ls
-pom.xml	src	target
-mini-de-adolfo:module2 adolfodelarosa$ 
+   ```sh
+   mini-de-adolfo:maven-modular-master adolfodelarosa$ ls
+   LICENSE		README.md	module1		module2		pom.xml
+   
+   mini-de-adolfo:maven-modular-master adolfodelarosa$ cd module1
+   mini-de-adolfo:module1 adolfodelarosa$ ls
+   pom.xml	src	target
+   
+   mini-de-adolfo:module1 adolfodelarosa$ cd ..
+   mini-de-adolfo:maven-modular-master adolfodelarosa$ cd module2
+   mini-de-adolfo:module2 adolfodelarosa$ ls
+   pom.xml	src	target
+   mini-de-adolfo:module2 adolfodelarosa$ 
+   ```
+   
+   Es un proyecto Maven con dos modulos y su archivo `pom.xml` y a su vez cada modulo es otro proyecto Maven con su propio archivo `pom.xml`.
 
+* Si estando en el proyecto principal pulsamos `mvn`, identifica el contenido:
 
-Es un proyecto Maven con dos modulos y su archivo `pom.xml` y a su vez cada modulo es otro proyecto Maven con su propio archivo `pom.xml`.
+   <img src="images/2-maven-mvn.png">
 
-Si estando en el proyecto principal pulsamos `mvn` me identifica el contenido:
+   Nos presenta errores por que no dimos ningún comando Maven, 
+   
+* Si pulsamos `mvn compile` podemos ver como nos compila el proyecto:
 
-<img src="images/2-maven-mvn.png">
-
-Nos presenta errores por que no dimos ningún comando Maven, pero si pulsamos `mvn compile` podemos ver como nos compila el proyecto:
-
-<img src="images/2-maven-mvn-2.png">
+   <img src="images/2-maven-mvn-2.png">
 
 ## Compilación y empaquetado 9:46 
 
