@@ -290,9 +290,9 @@ Al instalarse en nuestro repositorio se guardaría en:
 
 * `%USER_HOME%/.m2/repository/net/openwebinars/samples/commons-services/1.0/commons-services-1.0.jar`
 
-Es decir que el primer nivel corresponde al `groupId`.
-El segundo nivel corresponde al `artifactId`.
-Y el tercer nivel corresponde a la `version`.
+   * Es decir que el primer nivel corresponde al `groupId`.
+   * El segundo nivel corresponde al `artifactId`.
+   * Y el tercer nivel corresponde a la `version`.
 
 ### Cambiar el repositorio local por defecto
 
@@ -311,50 +311,51 @@ repository
 ```
 
 * Compilemos nuvamente nuestro proyecto con: 
-```sh
-192:commons-io-master adolfodelarosa$ mvn clean package
 
-... 
-[INFO] Skipping because packaging 'jar' is not pom.
-[INFO] 
-[INFO] --- maven-jar-plugin:3.2.0:test-jar (default) @ commons-io ---
-[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-tests.jar
-[INFO] 
-[INFO] --- maven-source-plugin:3.2.0:jar-no-fork (create-source-jar) @ commons-io ---
-[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-sources.jar
-[INFO] 
-[INFO] --- maven-source-plugin:3.2.0:test-jar-no-fork (create-source-jar) @ commons-io ---
-[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-test-sources.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  05:12 min
-[INFO] Finished at: 2020-04-09T22:39:14+02:00
-[INFO] ------------------------------------------------------------------------
-mini-de-adolfo:commons-io-master adolfodelarosa$ 
-```
+   ```sh
+   192:commons-io-master adolfodelarosa$ mvn clean package
+
+   ... 
+   [INFO] Skipping because packaging 'jar' is not pom.
+   [INFO] 
+   [INFO] --- maven-jar-plugin:3.2.0:test-jar (default) @ commons-io ---
+   [INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-tests.jar
+   [INFO] 
+   [INFO] --- maven-source-plugin:3.2.0:jar-no-fork (create-source-jar) @ commons-io ---
+   [INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-sources.jar
+   [INFO] 
+   [INFO] --- maven-source-plugin:3.2.0:test-jar-no-fork (create-source-jar) @ commons-io ---
+   [INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-test-sources.jar
+   [INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Total time:  05:12 min
+   [INFO] Finished at: 2020-04-09T22:39:14+02:00
+   [INFO] ------------------------------------------------------------------------
+   mini-de-adolfo:commons-io-master adolfodelarosa$ 
+   ```
 
 * Una vez que finaliza la compilación, podemos ver que en `.m2` ya tenemos el `repository2` que incluimos en la configuración:
 
-```sh
-192:.m2 adolfodelarosa$ ls
-repository	repository2
+   ```sh
+   192:.m2 adolfodelarosa$ ls
+   repository	repository2
 
-192:.m2 adolfodelarosa$ cd repository2
-192:repository2 adolfodelarosa$ ls
-antlr				commons-chain			commons-logging			net
-aopalliance			commons-cli			commons-validator		org
-avalon-framework		commons-codec			de				oro
-backport-util-concurrent	commons-collections		dom4j				sslext
-biz				commons-digester		javax				xerces
-classworlds			commons-httpclient		junit				xml-apis
-com				commons-io			log4j				xmlunit
-commons-beanutils		commons-lang			logkit
-192:repository2 adolfodelarosa$ 
+   192:.m2 adolfodelarosa$ cd repository2
+   192:repository2 adolfodelarosa$ ls
+   antlr				commons-chain			commons-logging			net
+   aopalliance			commons-cli			commons-validator		org
+   avalon-framework		commons-codec			de				oro
+   backport-util-concurrent	commons-collections		dom4j				sslext
+   biz				commons-digester		javax				xerces
+   classworlds			commons-httpclient		junit				xml-apis
+   com				commons-io			log4j				xmlunit
+   commons-beanutils		commons-lang			logkit
+   192:repository2 adolfodelarosa$ 
 
-```
+   ```
 
-Todo lo que vaya necesitando lo mete dentro de este repositorio.
+   Todo lo que vaya necesitando lo mete dentro de este repositorio.
 
 ## Instalación de librerías 4:18 
 
