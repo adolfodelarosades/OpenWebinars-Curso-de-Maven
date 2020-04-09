@@ -195,9 +195,96 @@ Borra todo el contenido del directorio `target` que es donde se almacenan todos 
 
 ### Comando `mvn clean`
 
+Si pulsamos el comando `mvn clean`:
+
+<img src="images/2-mvn-clean-2.png>
+
+Vemos como la carpeta `target` se elimina junto con todo su contenido.
+
+<img src="images/2-commons-io-2.png>
+          
+### Comando `mvn clean package`          
+
+Este comando nos permite eliminar lo ya compilado, para volverlo a compilar pero ademas empaquetarlo.
+
+```sh
+192:commons-io-master adolfodelarosa$ mvn clean package
+
+... 
+
+[INFO] Skipping because packaging 'jar' is not pom.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.0:test-jar (default) @ commons-io ---
+[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.0:jar-no-fork (create-source-jar) @ commons-io ---
+[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-source-plugin:3.2.0:test-jar-no-fork (create-source-jar) @ commons-io ---
+[INFO] Building jar: /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-test-sources.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:03 min
+[INFO] Finished at: 2020-04-09T20:58:08+02:00
+[INFO] ------------------------------------------------------------------------
+192:commons-io-master adolfodelarosa$
+```
+
+Cuando finaliza se crea la carpeta `target` con todos los archivos `.class` pero ademas de esto se crean los archivos `.jar`:
+
+```
+commons-io-2.7-SNAPSHOT-sources.jar
+commons-io-2.7-SNAPSHOT-test-sources.jar
+commons-io-2.7-SNAPSHOT-tests.jar
+commons-io-2.7-SNAPSHOT.jar
+```
+
+Nosotros podriamos distribuir el archivo `commons-io-2.7-SNAPSHOT-sources.jar` para que pueda ser incluido en otros proyectos y pueda ser utilizado todo el código desarrollado en esa libreria.
+
+Ademas de este jar genera otro para los `sources`, otro de `test`y uno de `test-sources`.
+
+### Respositorio local
+
+Maven tiene un repositorio local por default donde va recolectando todas las dependencias y librerias que va necesitando y que descarga de repositorios remotos y las coloca en el repositorio local para optimizar la velocidad de compilación.
+
+Este repositorio local por defaul esta ubicado en:
+
+`/Users/adolfodelarosa/.m2/repository`
 
 
 
+Para este proyecto si abrimos el archivo `pom.xml` tenemos:
+
+```
+<groupId>commons-io</groupId>
+<artifactId>commons-io</artifactId>
+<version>2.7-SNAPSHOT</version>
+```
+
+Tanto el `groupId` como `artifactId` tienen como valor `commons-io`, por lo que en el repositorio local debemos encontrar esta dependencia.
+
+**Explicación de cómo se crea el respositorio local:**
+
+* Por defecto Maven, si no le decimos nada, utilizará como ruta por defecto del repositorio local `{tu carpeta de usuario}/.m2/repository`
+
+* En la primera ejecución de Maven si no existe dicho directorio lo creará
+
+* Si por un casual queremos customizar esta ruta por el motivo que fuera, porque queremos diferenciar el repositorio local de un cliente a otro, por ejemplo: simplemente editaríamos la propiedad `localRepository` del fichero de configuración `%M2_HOME%/conf/settings.xml`
+
+* Cuando comiencen a descargarse dependencias o a instalarse proyectos en local se guardaran en dicho repositorio atendiendo al `{groupId}/{artifactId}/{version}`
+
+* Hay que tener en cuenta que normalmente el {groupId} suele estar organizado de un modo similar a los paquetes de clases en Maven, usando el caracter .como separador, y dicho separador se usará para establecer la jerarquía en el repositorio.
+
+Por ejemplo la siguiente librería *commons-services*:
+
+* `groupId: net.openwebinars.samples`
+* `artifactId: commons-services`
+* `version: 1.0`
+
+Al instalarse en nuestro repositorio se guardaría en:
+
+* `%USER_HOME%/.m2/repository/net/openwebinars/samples/commons-services/1.0/commons-services-1.0.jar`
 
 
 ## Instalación de librerías 4:18 
