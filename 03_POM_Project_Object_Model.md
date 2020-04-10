@@ -521,6 +521,72 @@ No obstante, en estos casos existe la opción de actualizar expresamente las dep
 
 [ Definición del flujo de construcción y fases del ciclo de vida](pdfs/3.6_Flujos_construccion_y_ciclo_de_vida.pdf)
 
+
+### `$> mvn clean`
+
+***Borra el directorio de compilados** (`target`) . Acción realizada por el plugin: `maven-clean-plugin`
+
+### `$> mvn clean package`
+
+*Borra el directorio de compilados (`target`)*
+*Copiado de recursos (filtrado si es necesario)*
+*Compilación del código fuente en el directorio target*
+***Empaquetado de compilados en el directorio target**. Acción realizada por los plugins (en función del packaging del POM): `maven-jar-plugin, maven-war-plugin, maven-ear-plugin`, etc.*
+
+### `$> mvn clean install`
+
+*Borra el directorio de compilados (`target`)*
+*Copiado de recursos (filtrado si es necesario)
+Compilación del código fuente en el directorio target
+Empaquetado de compilados en el directorio target
+**Instalación de empaquetados en el repositorio local**. Acción realizada por el plugin: `maven-install-plugin`*
+
+### `$> mvn clean deploy`
+
+*Borra el directorio de compilados (`target`)
+Copiado de recursos (filtrado si es necesario)
+Compilación del código fuente en el directorio target
+Empaquetado de compilados en el directorio target
+Instalación de empaquetados en el repositorio local
+**Despliegue en un repositorio de distribucción remoto**. Acción realizada por el plugin: `maven-deploy-plugin`*
+
+### Ciclo de vida por defecto
+
+* validate
+* compile
+* test
+* package
+* verify
+* install
+* deploy
+
+### Fases del ciclo de vida por defecto
+
+* validate
+* generate-sources
+* process-sources
+* generate-resources
+* process-resources
+* compile
+* process-classes
+* generate-test-sources
+* process-test-sources
+* generate-test-resources
+* process-test-resources
+* test-compile
+* process-test-classes
+* test
+* prepare-package
+* package
+* pre-integration-test
+* integration-test
+* post-integration-test
+* verify
+* install
+* deploy
+
+Cada una de las fases (`phases`) anteriores pueden ser usadas para activar ejecuciones de plugins y definir de ese modo un *pipeline* enriquecido.
+
 ## Plugins Maven mas conocidos 8:16 
 
 ## Uso de perfiles de configuración 8:52 
