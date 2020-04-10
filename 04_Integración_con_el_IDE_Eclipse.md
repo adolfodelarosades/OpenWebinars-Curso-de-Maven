@@ -10,7 +10,7 @@
 
 ## Integración con el IDE Eclipse y Apache Maven como base de ID 2:30 
 
-[Integración con el IDE Eclipse y Apache Maven como base de ID](pdfs/4.1_Integración_con_el_IDE_Eclipse_y_Apache_Maven.pdf)
+[Integración con el IDE Eclipse y Apache Maven como base de ID](pdfs/4.1_Integración_con_el_IDE_Eclipse_y_Apache_Maven.pdf)
 
 Apache Maven ofrece soporte para muchas herramientas, IDEs, sistemas de integración continua, etc.
 
@@ -32,7 +32,7 @@ Apache Maven ofrece soporte para muchas herramientas, IDEs, sistemas de integrac
 
 ## Opciones de configuración disponibles 16:40 
 
-[Opciones de configuración disponibles](pdfs/4.4_Opciones_de_configuración.pdf)
+[Opciones de configuración disponibles](pdfs/4.4_Opciones_de_configuración.pdf)
 
 * Analizar la jerarquía de dependencias del proyecto
 
@@ -46,7 +46,7 @@ Apache Maven ofrece soporte para muchas herramientas, IDEs, sistemas de integrac
 
 ## Optimización de tareas y resolución de conflictos 11:16 
 
-[Optimización de tareas y resolución de conflictos](pdfs/4.5_Optimización_de_tareas.pdf)
+[Optimización de tareas y resolución de conflictos](pdfs/4.5_Optimización_de_tareas.pdf)
 
 * Copiado de librerías de aplicaciones web en Servers durante el despliegue
 
@@ -60,12 +60,12 @@ Apache Maven ofrece soporte para muchas herramientas, IDEs, sistemas de integrac
 
 ## Contenido adicional 5
 
-[Integración con el IDE Eclipse y Apache Maven como base de ID](pdfs/4.1_Integración_con_el_IDE_Eclipse_y_Apache_Maven.pdf)
+[Integración con el IDE Eclipse y Apache Maven como base de ID](pdfs/4.1_Integración_con_el_IDE_Eclipse_y_Apache_Maven.pdf)
 
 [Instalación y configuración de Apache Maven sobre Eclipse](pdfs/4.2_Instalacion_y_configuracion.pdf)
 
 [Creación e importación de proyectos Maven](pdfs/4.3_Creacion_e_importacion_.pdf)
 
-[Opciones de configuración disponibles](pdfs/4.4_Opciones_de_configuración.pdf)
+[Opciones de configuración disponibles](pdfs/4.4_Opciones_de_configuración.pdf)
 
-[Optimización de tareas y resolución de conflictos](pdfs/4.5_Optimización_de_tareas.pdf)
+[Optimización de tareas y resolución de conflictos](pdfs/4.5_Optimización_de_tareas.pdf)
