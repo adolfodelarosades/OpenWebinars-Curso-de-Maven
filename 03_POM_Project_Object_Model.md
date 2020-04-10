@@ -519,7 +519,7 @@ No obstante, en estos casos existe la opción de actualizar expresamente las dep
 
 ## Definición del flujo de construcción y fases del ciclo de vida 3:27 
 
-[ Definición del flujo de construcción y fases del ciclo de vida](pdfs/3.6_Flujos_construccion_y_ciclo_de_vida.pdf)
+[Definición del flujo de construcción y fases del ciclo de vida](pdfs/3.6_Flujos_construccion_y_ciclo_de_vida.pdf)
 
 
 ### `$> mvn clean`
@@ -783,16 +783,20 @@ La activación de estos perfiles puede realizarse de múltiples formas:
 
 ## Ejemplo práctico: POM (Project Object Model) 9:43 
 
-
- 
-
 ## Contenido adicional  8
 
-3.1_Introduccion_a_POM_.pdf
- 3.2_Sintaxis_del_POM_.pdf
- 3.3_Declaracion_de_dependencias_.pdf
- 3.4_Dependency_plugins_.pdf
- 3.5_Definicion_de_repositorios_.pdf
- 3.6_Flujos_construccion_y_ciclo_de_vida.pdf
- 3.7_Plugins_Maven_mas_conocidos.pdf
- 3.8_Perfiles_de_configuracion.pdf
+[Introducción a POM](pdfs/3.1_Introduccion_a_POM_.pdf)
+
+[Sintaxis del POM](pdfs/3.2_Sintaxis_del_POM_.pdf)
+
+[Declaración de dependencias](pdfs/3.3_Declaracion_de_dependencias_.pdf)
+
+[Dependency plugins](pdfs/3.4_Dependency_plugins_.pdf)
+
+[Definición de repositorios](pdfs/3.5_Definicion_de_repositorios_.pdf)
+
+[Definición del flujo de construcción y fases del ciclo de vida](pdfs/3.6_Flujos_construccion_y_ciclo_de_vida.pdf)
+
+[Plugins Maven mas conocidos](pdfs/3.7_Plugins_Maven_mas_conocidos.pdf)
+
+[Uso de perfiles de configuración](pdfs/3.8_Perfiles_de_configuracion.pdf)
