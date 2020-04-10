@@ -598,7 +598,20 @@ Y abrir el archivo `mockito-core-3.3.3.pom`:
 
 Aquí vemos claramente las 3 dependencias que se observan en el **árbol de dependecias** para esta dependencia principal. De esta manera podemos llegar a saber donde estan las demas dependencias para las otras dependendencias princiapales.
 
+### Criterio para declarar librerias.
+
+Si tu utilizas en tu proyecto librerias de otras librerias que se incluyen de forma transitiva, tienes que declarar expresamente las dependecias, para evitar futuros problemas en caso de que una libreria deje de usar esas librerias transitivas.
 
 ## Ejemplo práctico: Apache Maven 10:54 
 
+1. Creación de un proyecto a partir de un arquetipo
+
+2. Descarga de dependencias, compilación, empaquetado y ejecución.
+
+3. Trabajando con Apache Maven en una red con un proxy HTTP
+
 ## Contenido adicional 2
+
+[Introducción a Apache Maven](pdfs/2.1_Introudcción_a_Apache_Maven.pdf)
+
+[Instalación y configuración](pdfs/2.2_Instalacion.pdf)
