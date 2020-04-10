@@ -672,12 +672,189 @@ total 1824
 
 Con esto nos hemos hecho de nuestra librería rapidamente. Aquí claramente estamos viendo la utilidad de  `groupId`,`artifactId` y `version` los cuales crean la estructura del proyecto dentro de nuestro repositorio local.
 
+#### Incluir una dependencia nueva
+
+[Repositorio Maven Distribuido](https://mvnrepository.com/)
+
+Dentro del *Repositorio Maven Distribuido* vamos a buscar la dependencia *commons-collections*
+
+<img src="images/2-mvn-repository.png">
+
+Seleccionamos la ultima versión:
+
+<img src="images/2-mvn-repository-2.png">
+
+Y copiamos la dependencia:
+
+```sh
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.4</version>
+</dependency>
+```
+
+La cual inseretamos en nuestro archivo `pom.xml` y volvemos a ejecutar el comando:
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn clean install -Dmaven.test.skip=true
+
+. . .
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  14.128 s
+[INFO] Finished at: 2020-04-10T03:00:21+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Podemos revisar el **árbol de dependecias** para ver que se ha incluido la nueva dependencia:
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn dependency:tree
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< net.openwebinars:comunes-es >---------------------
+[INFO] Building OpenWebinars Comunes Entrada/Salida 1.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:tree (default-cli) @ comunes-es ---
+[INFO] net.openwebinars:comunes-es:jar:1.0
+[INFO] +- org.junit.jupiter:junit-jupiter:jar:5.6.1:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.1:test
+[INFO] |  |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
+[INFO] |  |  +- org.opentest4j:opentest4j:jar:1.2.0:test
+[INFO] |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.1:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.1:test
+[INFO] |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.1:test
+[INFO] |     \- org.junit.platform:junit-platform-engine:jar:1.6.1:test
+[INFO] +- org.junit-pioneer:junit-pioneer:jar:0.5.6:test
+[INFO] +- org.mockito:mockito-core:jar:3.3.3:test
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.10.5:test
+[INFO] |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.5:test
+[INFO] |  \- org.objenesis:objenesis:jar:2.6:test
+[INFO] +- com.google.jimfs:jimfs:jar:1.1:test
+[INFO] |  \- com.google.guava:guava:jar:18.0:test
+[INFO] +- org.apache.commons:commons-lang3:jar:3.10:test
+[INFO] \- org.apache.commons:commons-collections4:jar:4.4:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.622 s
+[INFO] Finished at: 2020-04-10T03:02:22+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Al final del árbol podemos ver la nueva dependencia incluida en el archivo `pom.xml`, ademas ya aparece con los datos personalizados.
+
+Este cambio también se debe de haber registrado en el archivo `.pom` del repositorio local:
+
+```sh
+192:1.0 adolfodelarosa$ pwd
+/Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0
+192:1.0 adolfodelarosa$ ls -l
+total 2088
+-rw-r--r--  1 adolfodelarosa  staff     246 10 abr 03:00 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  340290 10 abr 03:00 comunes-es-1.0-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  296591 10 abr 03:00 comunes-es-1.0-test-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  270274 10 abr 03:00 comunes-es-1.0.jar
+-rw-r--r--  1 adolfodelarosa  staff   15249 10 abr 02:58 comunes-es-1.0.pom
+192:1.0 adolfodelarosa$ open -e comunes-es-1.0.pom
+192:1.0 adolfodelarosa$ 
+```
+
+```sh
+<dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.6.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit-pioneer</groupId>
+      <artifactId>junit-pioneer</artifactId>
+      <version>0.5.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.3.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.jimfs</groupId>
+      <artifactId>jimfs</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.10</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+    </dependency>
+
+  </dependencies>
+
+```
+
+Este cambio lo que nos permite es usar en mis fuentes alguna funcionalidad de `commons-collections4`.
+
+### Romper las cosas
+
+Si nos vamos a alguna clase `.java` por ejemplo `FileUtils.java` del paquete `package org.apache.commons.io;` y metemos algo para que falle:
+
+```sh
+    public FileUtils() {
+        super();-
+    }
+```
+
+Y si intentamos vover a compilar el proyecto tendremos:
 
 
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn compile
+[INFO] Scanning for projects...
 
+. . .
 
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/src/main/java/org/apache/commons/io/FileUtils.java:[3137,5] illegal start of expression
+[ERROR] /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/src/main/java/org/apache/commons/io/FileUtils.java:[3136,17] not a statement
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.242 s
+[INFO] Finished at: 2020-04-10T03:16:24+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project comunes-es: Compilation failure: Compilation failure: 
+[ERROR] /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/src/main/java/org/apache/commons/io/FileUtils.java:[3137,5] illegal start of expression
+[ERROR] /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/src/main/java/org/apache/commons/io/FileUtils.java:[3136,17] not a statement
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
 
-
+Un error en la compilación
 
 ## Contenido adicional 2
 
