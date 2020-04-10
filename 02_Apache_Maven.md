@@ -359,7 +359,245 @@ repository
 
 ## Instalación de librerías 4:18 
 
+### Comando `mvn install`
+
+Este comando compila, empaqueta y toma el `jar` creado en la carpeta `target` y lo copia en el repositorio local.
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn install
+
+...
+
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/commons-io-2.7-SNAPSHOT-test-sources.jar to /Users/adolfodelarosa/.m2/repository2/commons-io/commons-io/2.7-SNAPSHOT/commons-io-2.7-SNAPSHOT-test-sources.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  04:50 min
+[INFO] Finished at: 2020-04-10T01:23:27+02:00
+[INFO] ------------------------------------------------------------------------
+```
+
+Si revisamos el repositorio local veremos que se ha copiado nuestros archivos `.jar`  dentro de `2.7-SNAPSHOT`:
+
+```sh
+192:commons-io adolfodelarosa$ pwd
+/Users/adolfodelarosa/.m2/repository2/commons-io/commons-io
+192:commons-io adolfodelarosa$ ls -l
+total 8
+drwxr-xr-x  5 adolfodelarosa  staff  160  9 abr 22:34 2.1
+drwxr-xr-x  7 adolfodelarosa  staff  224  9 abr 22:34 2.2
+drwxr-xr-x  7 adolfodelarosa  staff  224  9 abr 22:34 2.4
+drwxr-xr-x  7 adolfodelarosa  staff  224  9 abr 22:34 2.5
+drwxr-xr-x  5 adolfodelarosa  staff  160  9 abr 22:39 2.6
+drwxr-xr-x  9 adolfodelarosa  staff  288 10 abr 01:23 2.7-SNAPSHOT
+-rw-r--r--  1 adolfodelarosa  staff  278 10 abr 01:23 maven-metadata-local.xml
+192:commons-io adolfodelarosa$ 
+
+192:commons-io adolfodelarosa$ cd 2.7-SNAPSHOT/
+-rw-r--r--  1 adolfodelarosa  staff     318 10 abr 01:23 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  340195 10 abr 01:23 commons-io-2.7-SNAPSHOT-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  296496 10 abr 01:23 commons-io-2.7-SNAPSHOT-test-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  470135 10 abr 01:23 commons-io-2.7-SNAPSHOT-tests.jar
+-rw-r--r--  1 adolfodelarosa  staff  270181 10 abr 01:23 commons-io-2.7-SNAPSHOT.jar
+-rw-r--r--  1 adolfodelarosa  staff   15073  9 abr 16:19 commons-io-2.7-SNAPSHOT.pom
+-rw-r--r--  1 adolfodelarosa  staff   
+```
+
+También mete el `pom.xml` pero le cambia el nombre a `commons-io-2.7-SNAPSHOT.pom`. Ademas de meter ciertos metadatos como la fecha en la que se descargo la libreria.
+
+### Comando `mvn clean install -Dmaven.test.skip=true`
+
+Con este comando hacemos lo mismo que el comando `mvn install` pero sin incluir los test.
+
 ## Árbol de dependencias 6:18 
+
+### Comando `mvn dependency:tree`
+
+Con este comando se descarga el pluging `dependency` y una vez descargado ejecuta la orden `tree`. Lo que devuelve son todas las dependencias del proyecto en forma de árbol.
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn dependency:tree
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:tree (default-cli) @ commons-io ---
+[INFO] commons-io:commons-io:jar:2.7-SNAPSHOT
+[INFO] +- org.junit.jupiter:junit-jupiter:jar:5.6.1:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.1:test
+[INFO] |  |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
+[INFO] |  |  +- org.opentest4j:opentest4j:jar:1.2.0:test
+[INFO] |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.1:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.1:test
+[INFO] |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.1:test
+[INFO] |     \- org.junit.platform:junit-platform-engine:jar:1.6.1:test
+[INFO] +- org.junit-pioneer:junit-pioneer:jar:0.5.6:test
+[INFO] +- org.mockito:mockito-core:jar:3.3.3:test
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.10.5:test
+[INFO] |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.5:test
+[INFO] |  \- org.objenesis:objenesis:jar:2.6:test
+[INFO] +- com.google.jimfs:jimfs:jar:1.1:test
+[INFO] |  \- com.google.guava:guava:jar:18.0:test
+[INFO] \- org.apache.commons:commons-lang3:jar:3.10:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.561 s
+[INFO] Finished at: 2020-04-10T01:39:19+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Podemos apreciar el árbol de las dependencias de este proyecto. Podemos abrir el archivo `pom.xml` del proyecto y ver las dependecias que tiene incluidas de manera directa:
+
+```sh
+<dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.6.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit-pioneer</groupId>
+      <artifactId>junit-pioneer</artifactId>
+      <version>0.5.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.3.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.jimfs</groupId>
+      <artifactId>jimfs</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.10</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+```
+
+Vemos claramente como estan códificadas las dependdencias de primer nivel tal como las muestra el **árbol de dependencias**. 
+
+Pero un archivo `pom.xml` se comporta como un objeto y como tal puede contener un padre el cual se definde en :
+
+```sh
+<parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-parent</artifactId>
+    <version>50</version>
+  </parent>
+```
+
+#### Dependencias en el Padre del `pom.xml`
+
+Este es otro sitio donde puede haber dependencias de nuestro proyecto. Podemos buscarlo dentro de nuestro repositorio local de una manera muy sencilla gracias a que usa una **forma estandar de definición** 
+
+```sh
+192:repository2 adolfodelarosa$ cd org/apache/commons/commons-parent/50
+
+192:50 adolfodelarosa$ ls -l
+total 280
+-rw-r--r--  1 adolfodelarosa  staff    172  9 abr 22:34 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  75622  9 abr 22:34 commons-parent-50.pom
+-rw-r--r--  1 adolfodelarosa  staff     40  9 abr 22:34 commons-parent-50.pom.sha1
+192:50 adolfodelarosa$ 
+```
+
+Tenemos el archivo `commons-parent-50.pom` que podemos abrir con:
+
+```sh
+192:50 adolfodelarosa$ open -e commons-parent-50.pom
+```
+
+Y si vemos sus dependencias tenemos:
+
+```sh
+<dependencies>
+      <dependency>
+      <groupId>org.apache.maven.doxia</groupId>
+      <artifactId>doxia-core</artifactId>
+      <version>1.8</version>
+      </dependency>
+</dependencies>
+```
+En este caso esta dependencia no aparecia en el **árbol de dependecias** pero en otros casos será de utilidad ver las dependencias del padre que esta en el archivo `pom.xml`.
+
+#### Dependencias dentro de las propias dependencias
+
+Como podemos apreciar en el **árbol de dependecias** dentro de las dependencias principales existen otras dependecias que decienden de ellas, por ejemplo:
+
+```sh
+[INFO] +- org.mockito:mockito-core:jar:3.3.3:test
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.10.5:test
+[INFO] |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.5:test
+[INFO] |  \- org.objenesis:objenesis:jar:2.6:test
+```
+
+Ya vimos que en el archivo `pom.xml` solo aparece la dependecia principal:
+
+```sh
+<dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.3.3</version>
+      <scope>test</scope>
+</dependency>
+```
+
+Para ver donde se encuentran las sub-dependecias es necesario acceder a esta dependencia:
+
+```sh
+192:repository2 adolfodelarosa$ pwd
+/Users/adolfodelarosa/.m2/repository2
+192:repository2 adolfodelarosa$ cd org/mockito/mockito-core/3.3.3
+192:3.3.3 adolfodelarosa$ ls -l
+total 1232
+-rw-r--r--  1 adolfodelarosa  staff     205  9 abr 22:34 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  592291  9 abr 22:34 mockito-core-3.3.3.jar
+-rw-r--r--  1 adolfodelarosa  staff      40  9 abr 22:34 mockito-core-3.3.3.jar.sha1
+-rw-r--r--  1 adolfodelarosa  staff   22948  9 abr 22:34 mockito-core-3.3.3.pom
+-rw-r--r--  1 adolfodelarosa  staff      40  9 abr 22:34 mockito-core-3.3.3.pom.sha1
+192:3.3.3 adolfodelarosa$ 
+```
+
+Y abrir el archivo `mockito-core-3.3.3.pom`:
+
+```sh
+<dependencies>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.10.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>1.10.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.objenesis</groupId>
+      <artifactId>objenesis</artifactId>
+      <version>2.6</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+```
+
+Aquí vemos claramente las 3 dependencias que se observan en el **árbol de dependecias** para esta dependencia principal. De esta manera podemos llegar a saber donde estan las demas dependencias para las otras dependendencias princiapales.
+
 
 ## Ejemplo práctico: Apache Maven 10:54 
 
