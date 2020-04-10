@@ -589,8 +589,210 @@ Cada una de las fases (`phases`) anteriores pueden ser usadas para activar ejecu
 
 ## Plugins Maven mas conocidos 8:16 
 
+[Plugins Maven mas conocidos](pdfs/3.7_Plugins_Maven_mas_conocidos.pdf)
+
+Un plugin Maven es un proyecto Maven declarado con packaging `plugin` en su POM.
+Los plugins Maven son el medio de customizar la ejecución del pipeline de un módulo Maven.
+
+Ejemplo de ejecución automatizadade la orden **`jar-no-fork`** del plugin **`maven-source-plugin`** que será ejecutada en la fase `verify`:
+
+```html
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-source-plugin</artifactId>
+      <version>2.4</version>
+      <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+```
+
+Existen plugins muy diversos para cubrir múltiples necesidades. Veamos el ejemplo del `jasperreports-maven-plugin` usado para compilar informes definidos en `.jrxml` a formato `.jasper`:
+
+```html
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>jasperreports-maven-plugin</artifactId>
+      <version>1.0-beta-2</version>
+      <configuration>
+        <sourceDirectory>src/main/reports</sourceDirectory>
+        <outputDirectory>src/main/compiled-reports</outputDirectory>
+      </configuration>
+      <executions>
+        <execution>
+          <phase>compile</phase>
+          <goals>
+            <goal>compile-reports</goal>
+          </goals>
+        </execution>
+      </executions>
+      <dependencies>
+        <dependency>
+          <groupId>net.sf.jasperreports</groupId>
+          <artifactId>jasperreports</artifactId>
+          <version>${jasperreports.version}</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
+```
+
+### Plugins más conocidos
+
+* maven-compiler-plugin
+* maven-surefire-plugin
+* maven-jetty-plugin
+* maven-dependency-plugin
+* maven-jar-plugin
+* maven-war-plugin
+* maven-deploy-plugin
+* maven-resource-plugin
+* hibernate-tools-maven-plugin
+* cxf-codegen-maven-plugin
+* spring-boot-maven-plugin
+
 ## Uso de perfiles de configuración 8:52 
+
+[Uso de perfiles de configuración](pdfs/3.8_Perfiles_de_configuracion.pdf)
+
+En determinadas circunstancias hay configuración que requiere ser establecida de forma dinámica:
+
+* Repositorios: `<repositories />`
+
+* Build cycle: `<build />`
+
+* Dependencias: `<dependencies />`
+
+* Propiedades de configuración: `<properties />`
+
+*Ejemplo*: Veamos un ejemplo de definición de configuración de acceso base de datos considerando que en el entorno de desarrollo se usa MySQL y en el entorno de producción se usa Oracle.
+
+```html
+<profiles>
+  <profile>
+    <id>entorno-dev</id>
+    <dependencies>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.15</version>
+      </dependency>
+    </dependencies>
+    <properties>
+        <jdbc.url>jdbc:mysql://127.0.0.1:3306/db</jdbc.url>
+        <jdbc.username>root</jdbc.username>
+        <jdbc.password>contrasenha</jdbc.password>
+    </properties>
+  </profile>
+   <profile>
+    <id>entorno-pro</id>
+    <dependencies>
+      <dependency>
+        <groupId>com.oracle</groupId>
+        <artifactId>ojdbc</artifactId>
+        <version>6</version>
+      </dependency>
+    </dependencies>
+    <properties>
+        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:ora</jdbc.url>
+        <jdbc.username>system</jdbc.username>
+        <jdbc.password>contrasenha</jdbc.password>
+    </properties>
+  </profile>
+</profiles>
+```
+
+La activación de estos perfiles puede realizarse de múltiples formas:
+
+* Activación expresa
+
+   * Incluyendo el ID de **profile** dentro de un marca **activeProfile** en el `settings.xml`. Por ejemplo: Para el perfil de ID `entorno-dev`
+
+```html
+<activeProfiles>
+<activeProfile>`entorno-dev</activeProfile>
+</activeProfiles>
+```
+
+
+* Valores de cierta variable: Por ejemplo, usando la variable de entorno **db**: `$> mvn clean install -Ddb=mysql`
+
+```html
+<profile>
+  <id>mysql</id>
+  <activation>
+    <property>
+      <name>db</name>
+      <value>mysql</value>
+    </property>
+  </activation>
+  ...
+</profile>
+```
+
+* Versión de JDK (activar en caso de JDK 1.6)
+
+```html
+<profile>
+  <activation>
+    <jdk>1.6</jdk>
+  </activation>
+  ...
+</profile>
+```
+
+* Versión de JDK (activar en caso de JDK 1.5, 1.6, 1.7)
+
+```html
+<profile>
+  <activation>
+    <jdk>[1.5,1.8)</jdk>
+  </activation>
+  ...
+</profile>
+```
+
+* Familia de sistema operativo: `mac`, `unix`, `windows`, etc.
+
+```html
+<profile>
+  <activation>
+    <os>
+      <name>Windows XP</name>
+      <family>Windows</family>
+      <arch>x86</arch>
+      <version>5.1.2600</version>
+    </os>
+  </activation>
+  ...
+</profile>
+```
 
 ## Ejemplo práctico: POM (Project Object Model) 9:43 
 
+
+ 
+
 ## Contenido adicional  8
+
+3.1_Introduccion_a_POM_.pdf
+ 3.2_Sintaxis_del_POM_.pdf
+ 3.3_Declaracion_de_dependencias_.pdf
+ 3.4_Dependency_plugins_.pdf
+ 3.5_Definicion_de_repositorios_.pdf
+ 3.6_Flujos_construccion_y_ciclo_de_vida.pdf
+ 3.7_Plugins_Maven_mas_conocidos.pdf
+ 3.8_Perfiles_de_configuracion.pdf
