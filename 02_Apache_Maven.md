@@ -610,6 +610,75 @@ Si tu utilizas en tu proyecto librerias de otras librerias que se incluyen de fo
 
 3. Trabajando con Apache Maven en una red con un proxy HTTP
 
+En este ejemplo vamos a cojer una libreria de software libre existente en un repositorio como GitHub y la vamos a convertir nuestra, la vamos a renombrar, modificaremos su GroupId, incluiremos alguna dependencia, es decir un software libre existe lo personalizaremos de acuerdo a nuestras necesidades.
+
+Basandonos en nuestro proyecto `commons-io` haremos cambios para personalzar esta libreria.
+
+* Abrimos el archivo `pom.xml` el cual tiene la siguiente configuración:
+
+```sh
+  <groupId>commons-io</groupId>
+  <artifactId>commons-io</artifactId>
+  <version>2.7-SNAPSHOT</version>
+```
+
+Y la cambiaremos a la siguiente:
+
+```sh
+  <groupId>net.openwebinars</groupId>
+  <artifactId>coomunes-es</artifactId>
+  <version>1.0</version>
+  <name>OpenWebinars Comunes Entrada/Salida</name>
+```
+
+Una vez hecho estos cambios pulsamos el comando:
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn clean install -Dmaven.test.skip=true
+
+. . . 
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/comunes-es-1.0.jar to /Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0/comunes-es-1.0.jar
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/pom.xml to /Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0/comunes-es-1.0.pom
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/comunes-es-1.0-sources.jar to /Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0/comunes-es-1.0-sources.jar
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master/target/comunes-es-1.0-test-sources.jar to /Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0/comunes-es-1.0-test-sources.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.658 s
+[INFO] Finished at: 2020-04-10T02:41:00+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Nos indica que nuestra libreria se ha instalado en:
+
+`/Users/adolfodelarosa/.m2/repository2/net/openwebinars/comunes-es/1.0/comunes-es-1.0.jar`
+
+Si revisamos el contenido de esa carpeta tenemos:
+
+```sh
+192:repository2 adolfodelarosa$ pwd
+/Users/adolfodelarosa/.m2/repository2
+192:repository2 adolfodelarosa$ cd net/openwebinars/comunes-es/1.0/
+192:1.0 adolfodelarosa$ ls -l
+total 1824
+-rw-r--r--  1 adolfodelarosa  staff     246 10 abr 02:41 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  340274 10 abr 02:41 comunes-es-1.0-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  296575 10 abr 02:41 comunes-es-1.0-test-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  270258 10 abr 02:40 comunes-es-1.0.jar
+-rw-r--r--  1 adolfodelarosa  staff   15088 10 abr 02:40 comunes-es-1.0.pom
+192:1.0 adolfodelarosa$ 
+```
+
+Con esto nos hemos hecho de nuestra librería rapidamente. Aquí claramente estamos viendo la utilidad de  `groupId`,`artifactId` y `version` los cuales crean la estructura del proyecto dentro de nuestro repositorio local.
+
+
+
+
+
+
+
+
 ## Contenido adicional 2
 
 [Introducción a Apache Maven](pdfs/2.1_Introudcción_a_Apache_Maven.pdf)
