@@ -31,14 +31,18 @@ Maven va mucho más allá de una mera herramienta de construcción y empaquetado
 
 Veamos como ejemplo el POM más sencillo que se puede declarar:
 
+```html
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.openwebinars</groupId>
   <artifactId>simplest-project</artifactId>
   <version>1</version>
 </project>
-Si ejecutamos el comando $> mvn help:effective-pom obtendremos el POM efectivo que en realidad hemos definido teniendo en cuenta, del mismo modo que en la programación orientada a objetos, la configuración heredada del super POM:
+```
 
+Si ejecutamos el comando `$> mvn help:effective-pom` obtendremos el POM efectivo que en realidad hemos definido teniendo en cuenta, del mismo modo que en la programación orientada a objetos, la configuración heredada del super *POM*:
+
+```html
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -266,23 +270,256 @@ Si ejecutamos el comando $> mvn help:effective-pom obtendremos el POM efectivo q
     <outputDirectory>C:\dev\workspace\simplest-project\target\site</outputDirectory>
   </reporting>
 </project>
+```
+
 Evidentemente, y continuando utilizando la analogía de la programación orientada a objetos, esta configuración heredada puede ser sobreescrita y ampliada.
 
-Estructura del POM
+### Estructura del POM
+
 Cuatro categorías de descripción y configuración:
 
-Información general del proyecto: Nombre del proyecto, URL, lista de desarrolladores y contribuyentes
-Configuración de construcción: Customización de la configuración manual de construcción definida por defecto
-Configuración de entornos a través de la definición de perfiles de config, por entorno, etc.
-Dependencias entre proyectos y librerías
+1. **Información general del proyecto**: Nombre del proyecto, URL, lista de desarrolladores y contribuyentes
 
-## Declaración de dependencias 14:40 
+2. **Configuración de construcción**: Customización de la configuración manual de construcción definida por defecto
+
+3. **Configuración de entornos** a través de la definición de perfiles de config, por entorno, etc.
+
+4. **Dependencias** entre proyectos y librerías
+
+## Declaración de dependencias 14:40
+
+[Declaración de dependencias](pdfs/3.3_Declaracion_de_dependencias_.pdf)
+
+Analicemos la declaración de la siguiente dependencia:
+
+```html
+<dependencies>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.1.3-RELEASE</version>
+  </dependency>
+</dependencies>
+```
+
+Identificador:
+
+* `groupId=org.springframework.boot`
+
+* `artifactId=spring-boot-starter-web`
+
+* `version=2.1.3-RELEASE`
+
+Una vez descargada, dicha depenencia se encontrará en 
+`$M2_REPO/org/springframework/boot/spring-boot-starter-web/2.1.3-RELEASE/` :
+
+* spring-boot-starter-web-2.1.3-RELEASE.jar
+
+* spring-boot-starter-web-2.1.3-RELEASE.pom
+
+Si ejecutamos el comando `$> mvn help:effective-pom` obtendremos el POM efectivo que en realidad hemos definido teniendo en cuenta, del mismo modo que en la programación orientada a objetos, la configuración heredada del *super POM*:
+
+Adicionalmente una dependencia puede tener una serie de parámetros adicionales:
+
+1. ***scope***: (ámbito): Valores posibles:
+
+   * **compile**: scope por defecto, son usadas en tiempo de compilaión y empaquetado
+
+   * **provided**: dependencias usadas en tiempo de compilación pero que no son incluídas en el empaquetado final ya que se espera que sean provistas por la JDK o por el servidor de aplicaciones (caso aplicaciones web). No son dependencias transitivsa
+
+   * **runtime**: Dependencias que son usadas en tiempo de ejecución pero que no son usadas en tiempo de compilación.
+   
+   * **test**: Dependencias que no son necesarias para la ejecución de la aplicación pero sí son usadas en tiempo de compilación/ejecución de tests.
+   
+   * **system**: Parecido a *provided* salvo que es preciso establecer el path completo del sistema de archivos local donde se encuenta la librería
+   
+2. ***packaging*** (empaquetado): Valores posibles:
+
+   * **pom**
+
+   * **jar** (empaquetado por defecto)
+
+   * **war**
+   
+   * **ear**
 
 ## Dependency plugins 9:52 
 
+[Dependency plugins](pdfs/3.4_Dependency_plugins_.pdf)
+
+Aunque se puede consultar todas la documentación de este plugin en: 
+https://maven.apache.org/plugins/maven-dependency-plugin/
+
+Veamos las opciones más útiles y nos ayudaran a resolver problemas y a realizar ciertas operaciones:
+
+#### Ver el árbol de dependencias de un proyecto Maven:
+
+```sh
+$> mvn dependency:dependency-tree
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:tree (default-cli) @ commons-io ---
+[INFO] commons-io:commons-io:jar:2.7-SNAPSHOT
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.apache.commons:commons-lang3:jar:3.8.1:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.443s
+[INFO] Finished at: Mon Apr 29 00:52:18 CEST 2019
+[INFO] Final Memory: 17M/304M
+[INFO] ------------------------------------------------------------------------
+```
+
+#### Copiar las dependencias de un proyecto Maven:
+
+```sh
+$> mvn dependency:copy-dependencies
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:copy-dependencies (default-cli) @ commons-io ---
+[INFO] Copying junit-4.12.jar to C:\dev\workspace\commons-io\target\dependency\junit-4.12.jar
+[INFO] Copying hamcrest-core-1.3.jar to C:\dev\workspace\commons-io\target\dependency\hamcrest-core-1.3.jar
+[INFO] Copying commons-lang3-3.8.1.jar to C:\dev\workspace\commons-io\target\dependency\commons-lang3-3.8.1.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+Este comando es muy útil cuando hay que hacer migraciones de despliegues de un repositorio remoto a otro.
+
+#### Analizar las dependencias de un proyecto Maven:
+
+```sh
+$> mvn dependency:analyze
+```
+
+Para simular el error de que alguien incluya una dependencia que se usa en realidad vamos a incluir la siguiente librería:
+
+```html
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.3.10.Final</version>
+</dependency>
+```
+
+El resultado del análisis indica que existe una librería no usada:
+
+```sh
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] ....
+[INFO] 
+[INFO] <<< maven-dependency-plugin:3.1.1:analyze (default-cli) @ commons-io <<<
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:analyze (default-cli) @ commons-io ---
+[WARNING] Unused declared dependencies found:
+[WARNING]    org.hibernate:hibernate-core:jar:5.3.10.Final:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
 ## Definición de repositorios 12:13 
 
+[Definición de repositorios](pdfs/3.5_Definicion_de_repositorios_.pdf)
+
+### ¿Cómo se define?
+
+Un repositorio viene identificado por un **ID**, su **URL**, si registrará versiones liberadas (`releases`), si registrará versión en desarrollo (`snapshots`), etc.
+
+```html
+<repositories>
+  <repository>
+    <id>central</id>
+    <url>http://repo1.maven.org/maven2</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+
+  <repository>
+    <id>redhat</id>
+    <url>https://maven.repository.redhat.com/ga</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+
+  <repository>
+    <id>corporate_repository</id>
+    <url>https://repository.mycorporation.com/central</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+</repositories>
+```
+
+Los repositorios remotos pueden requerir **autenticación**. En dicho caso, se deberá registrar en el `settings.xml` global o de usuario las credenciales en forma de donde el ID del *server* debe corresponderse con el ID del repositorio.
+
+Por ejemplo, si el repositorio `corporate_repository` requiriera autenticación con las credenciales `usuario/c0ntr4s3ñ4` tendríamos que definir el siguiente **server** en el `settings.xml`:
+
+```html
+<servers>
+     <server>
+       <id>corporate_repository</id>
+       <username>usuario</username>
+       <password>c0ntr4s3ñ4</password>
+     </server>
+</servers>
+```
+
+### ¿Dónde se deben definir?
+
+Posibilidades:
+
+1. En un `settings.xml` específico para el proyecto: Es la mejor opción ya que puede ser un fichero settings historificado mediante un control de versiones y queda definido claramente en un fichero único
+
+2. En un `pom.xml` maestro (padre de todos los módulos): No es una buena práctica. No obstante, es la menos mala por ser en un único POM. Tiene un problema grave hacerlo en esta localización: Supone un acoplamiento importante ya que los ficheros POM son instalados/desplegados/difundidos como una dependencia más y los repositorios no son de por vida, pueden dejar de existir (caso del repositorio Maven de **java.net**), pueden cambiar de URL y pasar a estar definidos por HTTPS en vez de HTTP (caso del repositorio Maven **primefaces.org**).
+
+3. En el `pom.xml` de cada módulo: Está permitido definir repositorios en un POM cualesquiera pero si no era recomendable su definición en un POM maestro, en un POM de un módulo hijo mucho menos. Es una opción acoplada que de por sí ya implica que existe duplicidad en la definición de repositorios.
+
+### El eterno problema de la política de actualizaciones
+
+Cada repositorio tiene la opción de customizar su política de actualizaciones (`<updatePolicy />`) que por defecto es diaria. Existiendo las siguientes opciones disponibles:
+
+* `always`
+
+* `daily` (por defecto)
+
+
+* `interval:XXX` (XXX minutos)
+
+* `never` (solo si no existe en el repositorio local)
+
+Muchas veces Maven puede resultar un poco tedioso con las constantes actualizaciones y evidentemente esto puede ser resultando usando: `<updatePolicy>never</updatePolicy>`
+
+Pero este tipo de política tan restrictiva, si se trabaja de forma colaborativa, **impediría** que los miembros del proyecto recibieran actualizaciones de los artefactos que se despliegan.
+
+No obstante, en estos casos existe la opción de actualizar expresamente las dependencias existentes en el repositorio Maven local:
+
+`$> mvn clean install -U`
+
 ## Definición del flujo de construcción y fases del ciclo de vida 3:27 
+
+[ Definición del flujo de construcción y fases del ciclo de vida](pdfs/3.6_Flujos_construccion_y_ciclo_de_vida.pdf)
 
 ## Plugins Maven mas conocidos 8:16 
 
