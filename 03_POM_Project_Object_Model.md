@@ -359,7 +359,7 @@ Esto significa que **hay un pom padre no definido para cualquier `pom.xml`, tamb
 
 [Declaración de dependencias](pdfs/3.3_Declaracion_de_dependencias_.pdf)
 
-Analicemos la declaración de la siguiente dependencia:
+Dentro del archivo `pom.xml` existe un apartado donde se decaran todas nuestras dependecias:
 
 ```html
 <dependencies>
@@ -377,7 +377,7 @@ Identificador:
 
 * `artifactId=spring-boot-starter-web`
 
-* `version=2.1.3-RELEASE`
+* `version=2.1.3-RELEASE
 
 Una vez descargada, dicha depenencia se encontrará en 
 `$M2_REPO/org/springframework/boot/spring-boot-starter-web/2.1.3-RELEASE/` :
@@ -411,13 +411,88 @@ Adicionalmente una dependencia puede tener una serie de parámetros adicionales:
    * **war**
    
    * **ear**
+   
+### Mis Notas
+
+**La señal de identidad de un artefacto Maven es su {groupId, artifactId, version}**
+
+Cuando se declara una dependecia es obligatorio el **artifactId** en algunas dependencias *groupId* y *version* pueden ser opcionales. Esto puede pasar por que estamos en un proyecto jerarquico en el que tenemos un pom padre que define ya esa información y hace que se herede hacia abajo. Esto lo hariamos metiendo en el pom padre una *dependencyManagment* donde se dan de alta dependencias que usaran los pom hijos, esto se hace por ejemplo para definir la versión de una dependencia y evitar que en los hijos se usen versiones diferentes.
+
+Las dependecias pueden usar otros parametros como **Scope** (compile, provided, runtime, test, system), **Type** (jar), **Classifier** (vacio, sources, test-sources).
+
+Ejemplo de el uso de Classifier:
+
+```sh
+mvn clean package install:install-file -Dfile=./target/commons-io-2.7-SNAPSHOT.jar -Dclassifier=openwebinars -Dmaven.test.skip=true
+```
+
+Tubería de comandos, limpia el directorio target, empaqueta el jar, ejecuta el plugin install para tomar el archivo indicado en el parámetro `-Dfile` indicando el parametro classifier con valor openwebinars, saltandose los test.
+
+Lo anterior sube en el repositorio local el archivo `commons-io-2.7-SNAPSHOT-openwebinars.jar`
+
+### Documentación pluging Install
+
+http://maven.apache.org/plugins/maven-install-plugin/install-file-mojo.html
+
+### Practica
+
+* Partiendo del proyecto `commons-io-master` creamos otro proyecto llamado `commons-io`. Un proyecto igual pero con otro nombre. Esta es otra forma de hacerse de un proyecto sin cambiar los valores en el `pom.xml`.
+
+* Desde la consola ejecutamos el comando:
+
+```sh
+mvn clean package install:install-file -Dfile=./target/commons-io-2.7-SNAPSHOT.jar -Dclassifier=openwebinars -Dmaven.test.skip=true
+```
+
+```sh
+mini-de-adolfo:commons-io adolfodelarosa$ pwd
+/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io
+mini-de-adolfo:commons-io adolfodelarosa$ mvn clean package install:install-file -Dfile=./target/commons-io-2.7-SNAPSHOT.jar -Dclassifier=openwebinars -Dmaven.test.skip=true
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+
+[INFO] --- maven-install-plugin:2.5.2:install-file (default-cli) @ commons-io ---
+[INFO] Installing /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/commons-io-2.7-SNAPSHOT.jar to /Users/adolfodelarosa/.m2/repository2/commons-io/commons-io/2.7-SNAPSHOT/commons-io-2.7-SNAPSHOT-openwebinars.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.114 s
+[INFO] Finished at: 2020-04-10T21:29:02+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io adolfodelarosa$ 
+. . .
+```
+
+Con esto a creado en nuestro repositorio el archivo:
+
+`/Users/adolfodelarosa/.m2/repository2/commons-io/commons-io/2.7-SNAPSHOT/commons-io-2.7-SNAPSHOT-openwebinars.jar`
+
+```sh
+192:2.7-SNAPSHOT adolfodelarosa$ pwd
+/Users/adolfodelarosa/.m2/repository2/commons-io/commons-io/2.7-SNAPSHOT
+192:2.7-SNAPSHOT adolfodelarosa$ ls -l
+total 3280
+-rw-r--r--  1 adolfodelarosa  staff     361 10 abr 21:29 _remote.repositories
+-rw-r--r--  1 adolfodelarosa  staff  270181 10 abr 21:29 commons-io-2.7-SNAPSHOT-openwebinars.jar
+-rw-r--r--  1 adolfodelarosa  staff  340195 10 abr 01:23 commons-io-2.7-SNAPSHOT-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  296496 10 abr 01:23 commons-io-2.7-SNAPSHOT-test-sources.jar
+-rw-r--r--  1 adolfodelarosa  staff  470135 10 abr 01:23 commons-io-2.7-SNAPSHOT-tests.jar
+-rw-r--r--  1 adolfodelarosa  staff  270181 10 abr 01:23 commons-io-2.7-SNAPSHOT.jar
+-rw-r--r--  1 adolfodelarosa  staff   15073  9 abr 16:19 commons-io-2.7-SNAPSHOT.pom
+-rw-r--r--  1 adolfodelarosa  staff    1520 10 abr 21:29 maven-metadata-local.xml
+192:2.7-SNAPSHOT adolfodelarosa$ 
+```
+
+**Este ejemplo tiene importacia en las situaciones que determinados clientes o equipos de desarrollo, cuando tienen que modificar una libreria de software libre y no tienen la capacidad de transladar el cambio hacia el equipo de desarrollo lo que hacen es customizarlo y suelen jugar con la premisa de que si su jar esta subido en el repositorio de distribución remoto con una subcorporacion, toda la gente cuando vaya a descargar la libreria, descargara la que esta subida al repositorio y es correcto, PERO NO ES UNA BUENA PRACTICA, por que esta suponiendo que tu lo sabes pero si luego otra persona afronta el proyecto y se encuentre versiones customizadas con los mismos groupId, artifactId y version, NO SABRIA QUE LA VERSION ESTA CUSTOMIZADA por lo que deberiamos usar classifier durante la subida para tener la certeza absoluta que la dependencia nuestra es commons-io-2.7-SNAPSHOT-openwebinars.jar que es difernte a commons-io-2.7-SNAPSHOT.jar  **
 
 ## Dependency plugins 9:52 
 
 [Dependency plugins](pdfs/3.4_Dependency_plugins_.pdf)
 
-Aunque se puede consultar todas la documentación de este plugin en: 
-https://maven.apache.org/plugins/maven-dependency-plugin/
+[Documentación oficial del plugin Dependency](https://maven.apache.org/plugins/maven-dependency-plugin/)
 
 Veamos las opciones más útiles y nos ayudaran a resolver problemas y a realizar ciertas operaciones:
 
@@ -445,6 +520,8 @@ $> mvn dependency:dependency-tree
 
 #### Copiar las dependencias de un proyecto Maven:
 
+Hay veces que sera necesesario copiar en una carpeta todas las dependencias de un proyecto, para llevarlas a otro sitio. Un ejemplo sería si quisieramos hacer un despliegue en la maquina de nuestro Cliente para que el mismo compile el propio proyecto de forma independiente. 
+
 ```sh
 $> mvn dependency:copy-dependencies
 [INFO] ------------------------------------------------------------------------
@@ -463,6 +540,8 @@ $> mvn dependency:copy-dependencies
 Este comando es muy útil cuando hay que hacer migraciones de despliegues de un repositorio remoto a otro.
 
 #### Analizar las dependencias de un proyecto Maven:
+
+Permite definir en un listado de tu proyecto que dependencias se estan usando, cuales se pueden copiar, etc. para por ejemplo ver que dependencias sobran y poderlas eliminar.
 
 ```sh
 $> mvn dependency:analyze
@@ -495,6 +574,172 @@ El resultado del análisis indica que existe una librería no usada:
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 ```
+
+### PRACTICA
+
+#### Ejecutar el comando `mvn dependency:copy-dependencies` en el proyecto `commons-io`
+
+```sh
+mini-de-adolfo:commons-io adolfodelarosa$ pwd
+/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io
+
+mini-de-adolfo:commons-io adolfodelarosa$ mvn dependency:copy-dependencies
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:copy-dependencies (default-cli) @ commons-io ---
+[INFO] Copying junit-jupiter-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-5.6.1.jar
+[INFO] Copying junit-jupiter-api-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-api-5.6.1.jar
+[INFO] Copying apiguardian-api-1.1.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/apiguardian-api-1.1.0.jar
+[INFO] Copying opentest4j-1.2.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/opentest4j-1.2.0.jar
+[INFO] Copying junit-platform-commons-1.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-commons-1.6.1.jar
+[INFO] Copying junit-jupiter-params-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-params-5.6.1.jar
+[INFO] Copying junit-jupiter-engine-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-engine-5.6.1.jar
+[INFO] Copying junit-platform-engine-1.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-engine-1.6.1.jar
+[INFO] Copying junit-pioneer-0.5.6.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-pioneer-0.5.6.jar
+[INFO] Copying mockito-core-3.3.3.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/mockito-core-3.3.3.jar
+[INFO] Copying byte-buddy-1.10.5.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-1.10.5.jar
+[INFO] Copying byte-buddy-agent-1.10.5.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-agent-1.10.5.jar
+[INFO] Copying objenesis-2.6.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/objenesis-2.6.jar
+[INFO] Copying jimfs-1.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/jimfs-1.1.jar
+[INFO] Copying guava-18.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/guava-18.0.jar
+[INFO] Copying commons-lang3-3.10.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/commons-lang3-3.10.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.037 s
+[INFO] Finished at: 2020-04-11T00:52:13+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io adolfodelarosa$ 
+```
+
+**Este comando copia todas las dependencias en la carpeta `target/dependency`:
+
+<img src="images/3-dependency-copy.png">
+
+El comando tiene varias opciones que podemos ver el la documentación por ejemplo para copiar las dependencias y tambiém el pom podemos ejecutar el comando:
+
+#### `mvn dependency:copy-dependencies -Dmdep.copyPom=true`
+
+```sh
+mini-de-adolfo:commons-io adolfodelarosa$ mvn dependency:copy-dependencies -Dmdep.copyPom=true
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.1:copy-dependencies (default-cli) @ commons-io ---
+[INFO] Copying junit-jupiter-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-5.6.1.jar
+[INFO] Copying junit-jupiter-api-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-api-5.6.1.jar
+[INFO] Copying apiguardian-api-1.1.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/apiguardian-api-1.1.0.jar
+[INFO] Copying opentest4j-1.2.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/opentest4j-1.2.0.jar
+[INFO] Copying junit-platform-commons-1.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-commons-1.6.1.jar
+[INFO] Copying junit-jupiter-params-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-params-5.6.1.jar
+[INFO] Copying junit-jupiter-engine-5.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-engine-5.6.1.jar
+[INFO] Copying junit-platform-engine-1.6.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-engine-1.6.1.jar
+[INFO] Copying junit-pioneer-0.5.6.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-pioneer-0.5.6.jar
+[INFO] Copying mockito-core-3.3.3.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/mockito-core-3.3.3.jar
+[INFO] Copying byte-buddy-1.10.5.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-1.10.5.jar
+[INFO] Copying byte-buddy-agent-1.10.5.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-agent-1.10.5.jar
+[INFO] Copying objenesis-2.6.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/objenesis-2.6.jar
+[INFO] Copying jimfs-1.1.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/jimfs-1.1.jar
+[INFO] Copying guava-18.0.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/guava-18.0.jar
+[INFO] Copying commons-lang3-3.10.jar to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/commons-lang3-3.10.jar
+[INFO] Copying junit-jupiter-5.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-5.6.1.pom
+[INFO] Copying junit-jupiter-api-5.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-api-5.6.1.pom
+[INFO] Copying apiguardian-api-1.1.0.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/apiguardian-api-1.1.0.pom
+[INFO] Copying opentest4j-1.2.0.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/opentest4j-1.2.0.pom
+[INFO] Copying junit-platform-commons-1.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-commons-1.6.1.pom
+[INFO] Copying junit-jupiter-params-5.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-params-5.6.1.pom
+[INFO] Copying junit-jupiter-engine-5.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-jupiter-engine-5.6.1.pom
+[INFO] Copying junit-platform-engine-1.6.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-platform-engine-1.6.1.pom
+[INFO] Copying junit-pioneer-0.5.6.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/junit-pioneer-0.5.6.pom
+[INFO] Copying mockito-core-3.3.3.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/mockito-core-3.3.3.pom
+[INFO] Copying byte-buddy-1.10.5.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-1.10.5.pom
+[INFO] Copying byte-buddy-agent-1.10.5.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/byte-buddy-agent-1.10.5.pom
+[INFO] Copying objenesis-2.6.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/objenesis-2.6.pom
+[INFO] Copying jimfs-1.1.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/jimfs-1.1.pom
+[INFO] Copying guava-18.0.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/guava-18.0.pom
+[INFO] Copying commons-lang3-3.10.pom to /Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io/target/dependency/commons-lang3-3.10.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.741 s
+[INFO] Finished at: 2020-04-11T01:02:51+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io adolfodelarosa$ 
+```
+
+Vemos como ademas de los archivos `.jar` también se han copiado los `.pom`:
+
+<img src="images/3-dependency-copy-2.png">
+
+#### Ejecutar el comando `mvn dependency:analyze` en el proyecto `commons-io`
+
+```sh
+mini-de-adolfo:commons-io adolfodelarosa$ mvn dependency:analyze
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< commons-io:commons-io >------------------------
+[INFO] Building Apache Commons IO 2.7-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+
+. . .
+
+[INFO] --- maven-dependency-plugin:3.1.1:analyze (default-cli) @ commons-io ---
+[WARNING] Used undeclared dependencies found:
+[WARNING]    org.junit.jupiter:junit-jupiter-api:jar:5.6.1:test
+[WARNING]    org.junit.jupiter:junit-jupiter-params:jar:5.6.1:test
+[WARNING] Unused declared dependencies found:
+[WARNING]    org.junit.jupiter:junit-jupiter:jar:5.6.1:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  14.748 s
+[INFO] Finished at: 2020-04-11T01:10:01+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io adolfodelarosa$ 
+```
+
+Como resultado del analisis nos indica ciertos *WARNING* que ha encontrado **Dependencias usadas no declaradas** y **Dependencias declaradas no utilizadas**.
+
+En el caso del proyecto `commons-io-master` habiamos insertado una dependencia que no utilizabamos vamos a analizar dicho proyecto.
+
+```sh
+mini-de-adolfo:commons-io-master adolfodelarosa$ pwd
+/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/downloads/commons-io-master
+mini-de-adolfo:commons-io-master adolfodelarosa$ mvn dependency:analyze
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< net.openwebinars:comunes-es >---------------------
+[INFO] Building OpenWebinars Comunes Entrada/Salida 1.0
+[INFO] --------------------------------[ jar ]---------------------------------
+
+. . .
+
+[INFO] --- maven-dependency-plugin:3.1.1:analyze (default-cli) @ comunes-es ---
+[WARNING] Used undeclared dependencies found:
+[WARNING]    org.junit.jupiter:junit-jupiter-api:jar:5.6.1:test
+[WARNING]    org.junit.jupiter:junit-jupiter-params:jar:5.6.1:test
+[WARNING] Unused declared dependencies found:
+[WARNING]    org.junit.jupiter:junit-jupiter:jar:5.6.1:test
+[WARNING]    org.apache.commons:commons-collections4:jar:4.4:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  14.661 s
+[INFO] Finished at: 2020-04-11T01:18:34+02:00
+[INFO] ------------------------------------------------------------------------
+mini-de-adolfo:commons-io-master adolfodelarosa$ 
+```
+
+Vemos que la dependencia `commons-collections4` que habiamos insertado y que logicamente no se usaba la detecta en su analisis.
+
+**Con este analis podemos purgar dependencias que no se usen en los proyectos para evitar aplicaciones más pesadas de lo que deberían ser.**
 
 ## Definición de repositorios 12:13 
 
