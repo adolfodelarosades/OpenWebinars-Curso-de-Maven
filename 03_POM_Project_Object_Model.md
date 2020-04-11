@@ -818,7 +818,6 @@ Cada repositorio tiene la opción de customizar su política de actualizaciones 
 
 * `daily` (por defecto)
 
-
 * `interval:XXX` (XXX minutos)
 
 * `never` (solo si no existe en el repositorio local)
@@ -830,6 +829,36 @@ Pero este tipo de política tan restrictiva, si se trabaja de forma colaborativa
 No obstante, en estos casos existe la opción de actualizar expresamente las dependencias existentes en el repositorio Maven local:
 
 `$> mvn clean install -U`
+
+### Mis Notas
+
+Hemos visto que en Maven tenemos un **repositorio local**, pero también podemos trabajar con un **repositorio Distribuido**. Ademas hemos visto que existe un **repositorio Central** ubicado en `https://repo.maven.apache.org/maven2` esto lo sabemos al ejecutar `mvn help:effective-pom`.
+
+Los **Repositorio Distribuidos** que podamos usar pueden ser publicos, de softawere libre, o inclusive privados dentro de nuestra propia corporación lo que permite que las corporaciones cuando tienen una cantidad de empleados numerosos lo que implicaría que si usaramos repositorios publicos la cantidad de peticiones externas crecería por lo que lo centralizan en un repositorio intermedio para evitar el trafico constante a internet, por lo que los desarrollos trabajan más rápido y se centraliza ese conocimiento intermedio. Esto permite que las librerias ddesarrolladas por el propio equipo de desarrollo se publican en estos repositorios intermedios sin necesidad de colocarlas en internet.
+
+<img src="images/3-repositorio-distribuido.png">
+
+En Eclipse podemos asociar el setting.xml que tenemos instalado en nuestra instalación de `apache-maven-3.6.3\conf\setting.xml`.
+
+<img src="images/3-eclipse-settings.png">
+
+Recordemos que en el archivo `setting.xml` podremos:
+
+* Declaramos el repositorio local.
+
+* Declaramos los mirrors o espejos que son un punto de entrada por donde se deben hacer todas las conexiones. Estos sirve para que si se define un repositorio usando el atributo url del mirror, Maven lo que hace cada vez que se tiene que descargar algo lo canalizara a traves de esta url, aun que existan multiples repositorios siempre pasara por este url. Esto lo hacen las corporaciones cuando es su repositorio corporativo definen un virtual repository que lo que permite es centralizar todas las conexiones a todos los repositorios distribuidos o corporativos que tenga.
+
+* En caso de tener un server tenga autenticación y establezcamos las credenciales todo eso se definira en el apartado **server**.
+
+* Podemos activar perfiles.
+
+Para compilar desde eclipse usamos
+
+<img src="images/3-eclipse-copilar-1.png>
+          
+<img src="images/3-eclipse-copilar-2.png>
+          
+<img src="images/3-eclipse-copilar-3.png>
 
 ## Definición del flujo de construcción y fases del ciclo de vida 3:27 
 
