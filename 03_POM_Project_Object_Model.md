@@ -866,7 +866,8 @@ Para compilar desde eclipse usamos
 
 ### `$> mvn clean`
 
-***Borra el directorio de compilados** (`target`) . Acción realizada por el plugin: `maven-clean-plugin`
+* Borra el directorio de compilados (`target`). 
+   Acción realizada por el plugin: `maven-clean-plugin`
 
 ### `$> mvn clean package`
 
