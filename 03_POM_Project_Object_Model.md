@@ -872,14 +872,16 @@ Para compilar desde eclipse usamos
 
 ### `$> mvn clean package`
 
-*Borra el directorio de compilados (`target`)*
-*Copiado de recursos (filtrado si es necesario)*
-*Compilación del código fuente en el directorio target*
-***Empaquetado de compilados en el directorio target**. Acción realizada por los plugins (en función del packaging del POM): `maven-jar-plugin, maven-war-plugin, maven-ear-plugin`, etc.*
+* Borra el directorio de compilados (`target`)
+* Copiado de recursos (filtrado si es necesario)
+* Compilación del código fuente en el directorio target
+* Empaquetado de compilados en el directorio target. 
+
+   Acción realizada por los plugins (en función del packaging del POM): `maven-jar-plugin, maven-war-plugin, maven-ear-plugin`, etc.*
 
 ### `$> mvn clean install`
 
-*Borra el directorio de compilados (`target`)*
+* Borra el directorio de compilados (`target`)
 *Copiado de recursos (filtrado si es necesario)
 Compilación del código fuente en el directorio target
 Empaquetado de compilados en el directorio target
