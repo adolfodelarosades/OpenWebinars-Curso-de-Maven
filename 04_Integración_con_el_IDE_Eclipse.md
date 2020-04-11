@@ -193,6 +193,17 @@ Y listo nos importa dicho proyecto.
 
 * Forzar la actualización/descarga de librerías de SNAPSHOTS y RELEASES
 
+
+### Analizar la jerarquía de dependencias del proyecto
+
+### Activar/desactivar la descarga de fuentes y javadoc
+
+### Activar/deshabilitar la resolución de referencias de proyectos en el workspace
+
+### Actualizar configuración de proyecto Maven
+
+### Forzar la actualización/descarga de librerías de SNAPSHOTS y RELEASES
+
 ## Optimización de tareas y resolución de conflictos 11:16 
 
 [Optimización de tareas y resolución de conflictos](pdfs/4.5_Optimización_de_tareas.pdf)
