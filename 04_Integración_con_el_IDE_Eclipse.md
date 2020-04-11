@@ -193,9 +193,62 @@ Y listo nos importa dicho proyecto.
 
 * Forzar la actualización/descarga de librerías de SNAPSHOTS y RELEASES
 
-
 ### Analizar la jerarquía de dependencias del proyecto
 
+* Abrimos el archivo `pom.xml` de nuestro proyecto **spring-boot-blank** 
+
+   <img src="images/4-pom-1.png">
+
+* Tenemos la pestaña `Dependencies` que si la pulsamos tenemos:
+
+   <img src="images/4-pom-2.png">
+  
+   Nos muestra todas las dependencias directas del proyecto.
+   
+* Tenemos la pestaña `Dependency Hierarchy` que si la pulsamos tenemos: 
+
+   <img src="images/4-pom-3.png">
+
+   Nos muestra toda la estructura de árbol de dependencias que tenemos y equivale al comando `$> mvn dependency:dependency-tree`. Del lado derecho se muestra un listado de todas las librerias.
+   
+   * Tenemos un `Filter` para buscar grupos de librerias:
+   
+      <img src="images/4-pom-4.png">
+   
+      Esta pestaña es muy util para detectar conflictos entre librerias. 
+      
+   * Tenemos la opción `Exclude Maven Artifact...` pulsando el botón derecho sobre alguna libreria que desemos excluir.
+   
+      <img src="images/4-pom-5.png">
+      
+      <img src="images/4-pom-6.png">
+      
+      <img src="images/4-pom-7.png">
+      
+      Esto lo que hace es meter la etiqueta `<exclusion>` en mi dependencia:
+      
+      ```sh
+      <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest.assured.version}</version>
+            <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-codec</groupId>
+            		<artifactId>commons-codec</artifactId>
+            	</exclusion>
+            </exclusions>
+      </dependency>
+      ```
+
+      **NOTA**: Existe un bug que cuando la dependencia esta en varios sitios la exclusion la mete en todos los sitios no solo en el que marcamos.
+      
+      Si en el `pon.xml` eliminamos las exclusiones la volvemos a tener operativa.
+      
+      <img src="images/4-pom-4.png">
+      
+      
 ### Activar/desactivar la descarga de fuentes y javadoc
 
 ### Activar/deshabilitar la resolución de referencias de proyectos en el workspace
