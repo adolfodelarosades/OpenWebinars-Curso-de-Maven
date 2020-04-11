@@ -1199,7 +1199,7 @@ Por ejemplo ademas del entorno *Local* tenemos los entornos *Desarrollo*, *Prueb
 
 Tendriamos que hacer diferencias con respecto al driver JDBC que utilicemos, una opción es tener las dos dependencias en nuestra aplicacion para no estar haciendo cambios a nivel de nuestra aplicación pero si lo que queremos es optimizar librerias el uso de perfiles biene muy bien.
 
-##### Perfil para MySQL:
+##### Perfil para MySQL:
 
 ```sh
 <profiles>
@@ -1227,7 +1227,7 @@ Lo ejecutamos con:
 
 El `-D` indica que es una variable 
 
-##### Perfil para MySQL:
+##### Perfil para Oracle:
 
 ```sh
 <profiles>
@@ -1261,6 +1261,41 @@ Otra forma de activar perfiles es de forma expresa a travez de `activeProfiles` 
 
 ## Ejemplo práctico: POM (Project Object Model) 9:43 
 
+* Abrir el archivo `pom.xml` del proyecto `commons-io`.
+
+   A grandes razgos podemos ver que se definen las siguientes cosas:
+   
+   * `parent`: Pom Padre
+   * Identificación de libreria o artefacto `modelVersion`, `groupId`, `artifactId`, `version` y `name`
+   * `description`: Descripción de nuestro proyecto
+   * `url`: URL del proyecto 
+   * `issueManagement`: Sistema de gestión de incidencias, para automatizar el alta de incidencias, por ejemplo si falla la compilación en Jenkis automaticamente cree la incidencia.
+   * `distributionManagement`: Repositorio distribuido donde se pueden hacer despliegues de librerias.
+   * `scm`: Gestor de código fuente por ejemplo git.
+   * `developers`: Desarrolladores del proyecto
+   * `contributors`: Contribuidors del proyecto
+   * `dependencies`: Dependencias del proyecto
+   * `properties`: Se definen propiedades que se usan dentro del mismo `pom.xml` o dentro de poms hijos.
+   * `build`: configuración de la construcción del proyecto
+   * `reporting`: Definición de reportes
+   * `profiles` Definición de perfiles
+   
+* Ademas de todas estas opciones por defaul podemos insertar otras opciones:
+
+   * `prerequisites`: Prerequisitos de compilación.
+   * `organization`: Información de la organización.
+   * etc.
+   
+### Ayudas de Eclipse
+
+* En Eclipse podemos ver todas las opciones posibles usando el Ctrl + Espacio.
+   
+* Con Eclipse tambien podemos tener una vista esquematica del archivo `pom.xml`.
+   
+   <img src="images/3-overview.png">
+
+* En Eclipse también podemos ver el Effective Pom pulsando en la pestaña.
+   
 ## Contenido adicional  8
 
 [Introducción a POM](pdfs/3.1_Introduccion_a_POM_.pdf)
