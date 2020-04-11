@@ -273,14 +273,36 @@ Vamos a incluir el proyecto `commons-io` dentro del de `spring-boot-blanck`
    Y vemos como ya aparece como dependencia de nuestro proyecto
    
    <img src="images/4-pom-8.png">
-* 
+ 
+   Esto lo que implica que cuando hagamos cambios en el proyecto `commons-io` y gracias a Maven será capaz de comunicarselo al proyecto `spring-boot-blanck` automaticamente sin necesidad de hacer nada. **PERO ESTE PROCESO A VECES FALLA** esto puede verse en los servidores de aplicaciones (web) donde no coje los cambios. Si esto llega a ocurrir como mecanismo de emergencia podemos usar el siguiente punto.
+   
+### Activar/deshabilitar la resolución de referencias de proyectos en el workspace   
 
+Para Activar/deshabilitar la resolución de referencias de proyectos en el workspace pulsamos:
+
+<img src="images/4-activar-1.png">
+
+En este caso desactiva las referencias lo que implica que si hay cambios en `commons-io` no se veran reflejados automaticamente en `spring-boot-blanck`, será necesario hacer un `clean install` del proyecto `commons-io` para reflejar los cambios.
+
+### Vamos a Excluir una libreria que se encuentre en más de un sitio.
+
+
+
+### Actualizar configuración de proyecto Maven
+
+Cuando se modifica la configuración de un proyecto Maven es posible que no coja los cambios y sea necesario actualizar el proyecto con la opción:
+
+<img src="images/4-actualizar-1.png">
+
+<img src="images/4-actualizar-2.png">
+
+**Lo que hace es algo parececido a lo que se hace cuando se importa el proyecto en base a lo que hay instalado**
 
 ### Activar/desactivar la descarga de fuentes y javadoc
 
-### Activar/deshabilitar la resolución de referencias de proyectos en el workspace
 
-### Actualizar configuración de proyecto Maven
+
+
 
 ### Forzar la actualización/descarga de librerías de SNAPSHOTS y RELEASES
 
