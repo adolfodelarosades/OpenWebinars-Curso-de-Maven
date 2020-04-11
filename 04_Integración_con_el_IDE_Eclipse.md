@@ -146,6 +146,8 @@ Una vez insertado el error se elimina.
 
    <img src="images/4-localhost.png">
    
+   **La utilidad que ofrecen los arquetipos de Maven para crear un proyecto operativo y funcional en este caso de Spring Boots, definiendo la estructura, archivos de configuración, archivos de Test listos para ser ejecutados**
+   
 * En caso de que no ubiera ejecutado lo que deberiamos es compilar el proyecto con Maven Install:
 
    <img src="images/4-arquetipo-6.png">
@@ -163,11 +165,19 @@ Una vez insertado el error se elimina.
 
    <img src="images/4-arquetipo-7.png">
 
-
+   **Observe que estas configuraciones se pueden salvar poniendo un Name y pulsando Apply, antes de dar Run**
 
 ### Importar un proyecto existente
 
+Para importar un Proyecto Maven seleccionamos la opción *File > Import*
 
+<img src="images/4-import-project-maven.png">
+
+Buscamos en nuetra maquina el proyecto Maven que deseamos importar.
+
+<img src="images/4-import-project-maven-2.png">
+
+Y listo nos importa dicho proyecto.
 
 ## Opciones de configuración disponibles 16:40 
 
