@@ -877,24 +877,35 @@ Para compilar desde eclipse usamos
 * Compilación del código fuente en el directorio target
 * Empaquetado de compilados en el directorio target. 
 
-   Acción realizada por los plugins (en función del packaging del POM): `maven-jar-plugin, maven-war-plugin, maven-ear-plugin`, etc.*
+   Acción realizada por los plugins (en función del packaging del POM): 
+   
+   * `maven-jar-plugin
+   * `maven-war-plugin`
+   * `maven-ear-plugin`
+   * etc.
 
 ### `$> mvn clean install`
 
 * Borra el directorio de compilados (`target`)
-*Copiado de recursos (filtrado si es necesario)
-Compilación del código fuente en el directorio target
-Empaquetado de compilados en el directorio target
-**Instalación de empaquetados en el repositorio local**. Acción realizada por el plugin: `maven-install-plugin`*
+* Copiado de recursos (filtrado si es necesario)
+* Compilación del código fuente en el directorio target
+* Empaquetado de compilados en el directorio target
+* Instalación de empaquetados en el repositorio local. 
+
+   Acción realizada por el plugin: `maven-install-plugin`*
 
 ### `$> mvn clean deploy`
 
-*Borra el directorio de compilados (`target`)
-Copiado de recursos (filtrado si es necesario)
-Compilación del código fuente en el directorio target
-Empaquetado de compilados en el directorio target
-Instalación de empaquetados en el repositorio local
-**Despliegue en un repositorio de distribucción remoto**. Acción realizada por el plugin: `maven-deploy-plugin`*
+* Borra el directorio de compilados (`target`)
+* Copiado de recursos (filtrado si es necesario)
+* Compilación del código fuente en el directorio target
+* Empaquetado de compilados en el directorio target
+* Instalación de empaquetados en el repositorio local
+* Despliegue en un repositorio de distribucción remoto. 
+
+   Acción realizada por el plugin: `maven-deploy-plugin`*
+
+<img src="images/3-fases.png">
 
 ### Ciclo de vida por defecto
 
@@ -933,14 +944,20 @@ Instalación de empaquetados en el repositorio local
 
 Cada una de las fases (`phases`) anteriores pueden ser usadas para activar ejecuciones de plugins y definir de ese modo un *pipeline* enriquecido.
 
+Nos sirve para:
+
+* Automatizar pruebas
+* Levantar contenedores
+* etc.
+
 ## Plugins Maven mas conocidos 8:16 
 
 [Plugins Maven mas conocidos](pdfs/3.7_Plugins_Maven_mas_conocidos.pdf)
 
-Un plugin Maven es un proyecto Maven declarado con packaging `plugin` en su POM.
+Un plugin Maven es un proyecto Maven (libreria) declarado con packaging `plugin` en su POM.
 Los plugins Maven son el medio de customizar la ejecución del pipeline de un módulo Maven.
 
-Ejemplo de ejecución automatizadade la orden **`jar-no-fork`** del plugin **`maven-source-plugin`** que será ejecutada en la fase `verify`:
+Ejemplo de ejecución automatizada de la orden **`jar-no-fork`** del plugin **`maven-source-plugin`** que será ejecutada en la fase `verify`:
 
 ```html
 <build>
@@ -996,19 +1013,28 @@ Existen plugins muy diversos para cubrir múltiples necesidades. Veamos el ejemp
 </build>
 ```
 
+En este plugin tiene una dependencia que es necesario para poder ejecutarlo. Son dependencias que se van a ejecutar en el tiempo de ejecución de ese pluging, pero no son dependencias que vayan a llegar al aplicativo. 
+
 ### Plugins más conocidos
 
-* maven-compiler-plugin
-* maven-surefire-plugin
-* maven-jetty-plugin
-* maven-dependency-plugin
-* maven-jar-plugin
-* maven-war-plugin
-* maven-deploy-plugin
-* maven-resource-plugin
-* hibernate-tools-maven-plugin
-* cxf-codegen-maven-plugin
-* spring-boot-maven-plugin
+Oficiales:
+
+* maven-compiler-plugin: Pluging para compilar
+* maven-surefire-plugin: Pluging para el test, ejecuta los test definidos en java con junit y genera un informe
+* maven-jetty-plugin: Pluging para levantar servidor Jetty para realizar los test
+* maven-dependency-plugin: Pluging para ver árbol de dependecias, copia de dependencias
+* maven-jar-plugin: Pluging para la orden package
+* maven-war-plugin: Pluging para empaquetar aplicaciones web
+* maven-deploy-plugin: Pluging para el despliegue en servidores distribuidos
+* maven-resource-plugin: Pluging para el filtrado de recursos
+
+<img src="images/3-tuberia.png">
+
+De aplicaciones:
+
+* hibernate-tools-maven-plugin: Siguiendo la filosofias MDA a partir de un modelo fisico de BD automatices la generación de las entidades del ORM leyendo de las tablas todo la información de los metadatos que hay para construir la capa de entidades definidas en el JPA. 
+* cxf-codegen-maven-plugin: A partir de un "UEDSD" de un servicio web construir la capa Java que se corresponde con ese contrato de servicios web.
+* spring-boot-maven-plugin: Ofrece muchas opciones para Spring Boot
 
 ## Uso de perfiles de configuración 8:52 
 
@@ -1126,6 +1152,112 @@ La activación de estos perfiles puede realizarse de múltiples formas:
   ...
 </profile>
 ```
+
+### Mis Notas
+
+Esta es una de las partes de configuración de Maven que más problemas ocaciona. Pero es muy util ya que al definir perfiles de configuración permite tener distintas configuraciones para varios entornos, tener diferentes librerias en función de la JDK que se utilice o incluso tener diferencias en base al SO que se utilice.
+
+#### Practica 1
+
+Necesitamos que únicamente en el entorno de producción se optimice el código que se vaya a compilar.
+
+```sh
+<profiles>
+  <profile>
+    <id>produccion</id>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <debug>false</debug>
+            <optimize>true</optimize>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
+```
+
+Hemos:
+
+* Definido un perfil identificado como *produccion*
+
+* Se define un pluging de ejecución que se utilizara con ese perfil activo con la opción `optimize=true`
+
+* Para ejecutarlo usariamos `$> mvn clean install –Pproduccion`
+
+#### Practica 2
+
+Necesitamos definir dependencias diferentes en función de la base de datos establecida.
+
+**Esto es algo muy habitual cuando se diseñan aplicaciones que soportan distintos entorrnos de ejcución, distintas BD, distintos servidores y muchas veces es preferible crear varios perfiles que definir una configuración para cada entorno**.
+
+Por ejemplo ademas del entorno *Local* tenemos los entornos *Desarrollo*, *Pruebas* y *Producción* y ademas usamos una conexion a la BD a través de un pool de conexiones para MySQL y Oracle. 
+
+Tendriamos que hacer diferencias con respecto al driver JDBC que utilicemos, una opción es tener las dos dependencias en nuestra aplicacion para no estar haciendo cambios a nivel de nuestra aplicación pero si lo que queremos es optimizar librerias el uso de perfiles biene muy bien.
+
+##### Perfil para MySQL:
+
+```sh
+<profiles>
+  <profile>
+    <id>mysql</id>
+    <activation>
+      <property>
+        <name>db</name>
+        <value>mysql</value>
+      </property>
+    </activation>
+    <dependencies>
+      <dependency>
+  <groupId>mysql</groupId>
+<artifactId>mysql-connector-java</artifactId>
+<version>8.0.15</version>
+</dependency>
+</dependencies>
+</profiles>
+```
+
+Lo ejecutamos con:
+
+`$> mvn clean install –Ddb=mysql`
+
+El `-D` indica que es una variable 
+
+##### Perfil para MySQL:
+
+```sh
+<profiles>
+  <profile>
+    <id>oracle</id>
+    <activation>
+      <property>
+        <name>db</name>
+        <value>oracle</value>
+      </property>
+    </activation>
+    <dependencies>
+      <dependency>
+        <groupId>com.oracle</groupId>
+        <artifactId>ojdbc</artifactId>
+        <version>6</version>
+      </dependency>
+    </dependencies>
+</profiles>
+```
+
+Lo ejecutamos con:
+
+`$> mvn clean install –Ddb=oracle`
+
+Podriamos extrapolar esto a aplicaciones que usan diferentes servidores como por ejemplo Tomcat, JBoss, GlassFish o por ejemplo perfiles para diferentes Sistemas Operativos.
+
+[Más informacion sobre perfiles](http://maven.apache.org/guides/introduction/introduction-to-profiles.html)
+
+Otra forma de activar perfiles es de forma expresa a travez de `activeProfiles` en el `settings.xml`.
 
 ## Ejemplo práctico: POM (Project Object Model) 9:43 
 
