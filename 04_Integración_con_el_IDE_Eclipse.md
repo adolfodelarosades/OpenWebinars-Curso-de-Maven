@@ -286,7 +286,25 @@ En este caso desactiva las referencias lo que implica que si hay cambios en `com
 
 ### Vamos a Excluir una libreria que se encuentre en más de un sitio.
 
+* Abrimos el `pom.xml` del proyecto `commons-io`. Donde incluiremos la siguiente dependencia 
 
+   ```sh
+   <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.6</version>
+   </dependency>
+   ```
+   
+   Que corresponde a una dependencia hereda de alguna de las dependencias directas en el mismo proyecto `commons-io`. La hemos puesto como dependencia principal para duplicar su uso.
+   
+   En teoría la libreria deberia estar disponible tanto en `commons-io` como en `spring-boot-blanck`, pero como hemos deshabilitar la resolución de referencias es necesario realizar un `clean install` + `skip test` en `commons-io`.
+  
+   Si abrimos el `pom.xml` de `spring-boot-blanck` ya vemos dentro de la dependencia del proyecto la dependencia transitiva incluida, en caso de no verla sería necesario actualizar la configuración del proyecto.
+ 
+   <img src="images/4-activar-2.png">
+   
+   Con esto tenemos `commons-codec` en dos sitios, lo que vamos hacer es una exclusión de dicha libreria que acabamos de añadir, con el boton derecho y dando la opción `Exclude Maven Artifieed...`, lo que hace es que las ecluye de ambos sitios no solo del que le habiamos indicado.  
 
 ### Actualizar configuración de proyecto Maven
 
@@ -300,11 +318,17 @@ Cuando se modifica la configuración de un proyecto Maven es posible que no coja
 
 ### Activar/desactivar la descarga de fuentes y javadoc
 
+Simplemente se activan o desactivan los checks en la configuración de Maven
 
-
-
+<img src="images/4-javadocs.png">
 
 ### Forzar la actualización/descarga de librerías de SNAPSHOTS y RELEASES
+
+Pude existir una casuistica en la que las actualizaciones de los repositorios se realicen una sola vez al dia en un horario determinado, pero si queremos descargar la dependencia en uun momento dado podemos forzarlo con la opción de Actualizar el Proyecto pero marcando el check `Force Update of Snapshots/Releases`
+
+<img src="images/4-force.png">
+
+**Esto también es muy util cuando en la descarga hubo problemas de red y necesitamos forzar nuevamente la descarga de las dependencias**
 
 ## Optimización de tareas y resolución de conflictos 11:16 
 
