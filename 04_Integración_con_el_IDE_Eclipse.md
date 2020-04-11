@@ -109,17 +109,17 @@ Como podemos ver hemos tenido un `BUILD SUCCESS`
 
 Vamos a ilustrar los pasos para la creación del proyecto:
 
-<img src="images/2-arquetipo-1.png">
+<img src="images/4-arquetipo-1.png">
 
 Pulsamos directamente en *Next* sin cambiar nada.
 
-<img src="images/2-arquetipo-2.png">
+<img src="images/4-arquetipo-2.png">
 
 Existen infinidad de arquetipos que podemos usar aqui primero filtramos por *spring* y seleccionamos `spring-boot-blank-archetype`.
 
-<img src="images/2-arquetipo-3.png">
+<img src="images/4-arquetipo-3.png">
 
-<img src="images/2-arquetipo-4-2.png">
+<img src="images/4-arquetipo-4-2.png">
 
 Al final nos crea la estructura de nuestro proyecto spring. Pero observamos que en la clase `HelloCpntroller.java` tenemos un error y es por que el equipo de Spring se ha olvidado de colocar el Constructor.
 
