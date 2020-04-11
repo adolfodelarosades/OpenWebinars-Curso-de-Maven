@@ -247,8 +247,35 @@ Y listo nos importa dicho proyecto.
       Si en el `pon.xml` eliminamos las exclusiones la volvemos a tener operativa.
       
       <img src="images/4-pom-4.png">
-      
-      
+
+### Incluir un proyecto Maven como dependencia dentro de otro proyecto Maven
+
+Vamos a incluir el proyecto `commons-io` dentro del de `spring-boot-blanck`
+
+* Ir al proyecto `pom.xml` de `commons-io` y copiar sus identificadores.
+
+   ```sh
+   <groupId>commons-io</groupId>
+   <artifactId>commons-io</artifactId>
+   <version>2.7-SNAPSHOT</version>
+   ```
+
+* Incluir lo copiado en el `pom.xml` de `spring-boot-blanck` como dependencia
+
+   ```sh
+   <dependency>
+   	<groupId>commons-io</groupId>
+  	<artifactId>commons-io</artifactId>
+  	<version>2.7-SNAPSHOT</version>
+   </dependency>
+   ```
+	
+   Y vemos como ya aparece como dependencia de nuestro proyecto
+   
+   <img src="images/4-pom-8.png">
+* 
+
+
 ### Activar/desactivar la descarga de fuentes y javadoc
 
 ### Activar/deshabilitar la resolución de referencias de proyectos en el workspace
