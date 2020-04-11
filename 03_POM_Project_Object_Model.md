@@ -616,7 +616,7 @@ mini-de-adolfo:commons-io adolfodelarosa$ mvn dependency:copy-dependencies
 mini-de-adolfo:commons-io adolfodelarosa$ 
 ```
 
-**Este comando copia todas las dependencias en la carpeta `target/dependency`:
+**Este comando copia todas las dependencias en la carpeta `target/dependency`**:
 
 <img src="images/3-dependency-copy.png">
 
@@ -854,11 +854,11 @@ Recordemos que en el archivo `setting.xml` podremos:
 
 Para compilar desde eclipse usamos
 
-<img src="images/3-eclipse-copilar-1.png>
+<img src="images/3-eclipse-copilar-1.png">
           
-<img src="images/3-eclipse-copilar-2.png>
+<img src="images/3-eclipse-copilar-2.png">
           
-<img src="images/3-eclipse-copilar-3.png>
+<img src="images/3-eclipse-copilar-3.png">
 
 ## Definición del flujo de construcción y fases del ciclo de vida 3:27 
 
