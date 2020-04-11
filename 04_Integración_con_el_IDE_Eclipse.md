@@ -83,9 +83,91 @@ Como podemos ver hemos tenido un `BUILD SUCCESS`
 
 [Creación e importación de proyectos Maven](pdfs/4.3_Creacion_e_importacion_.pdf)
 
-* Crear un proyecto desde cero a partir de un arquetipo
+* Crear un proyecto desde cero a partir de un **arquetipo**
 
-* Importar un proyecto existente
+* **Importar** un proyecto existente
+
+### Instalación de Spring-Boot
+
+* En el Eclipse Marketplace en File buscamos `spring`
+
+   <img src="images/4-install-spring-tools.png">
+   
+   Instalamos **Spring Tools 4 (aka Spring Tool Suite 4) 4.6.0.RELEASE**
+   
+   <img src="images/4-install-spring-tools-2.png">
+   
+   Presionamos confirmar
+   
+   <img src="images/4-install-spring-tools-3.png">
+   
+   Presionamos finish.
+   
+   Se reiniciara Eclipse y ya nos aparecera el Boot Dashboard de Spring Boots.
+
+### Crear un proyecto desde cero a partir de un arquetipo
+
+Vamos a ilustrar los pasos para la creación del proyecto:
+
+<img src="images/2-arquetipo-1.png">
+
+Pulsamos directamente en *Next* sin cambiar nada.
+
+<img src="images/2-arquetipo-2.png">
+
+Existen infinidad de arquetipos que podemos usar aqui primero filtramos por *spring* y seleccionamos `spring-boot-blank-archetype`.
+
+<img src="images/2-arquetipo-3.png">
+
+<img src="images/2-arquetipo-4-2.png">
+
+Al final nos crea la estructura de nuestro proyecto spring. Pero observamos que en la clase `HelloCpntroller.java` tenemos un error y es por que el equipo de Spring se ha olvidado de colocar el Constructor.
+
+```java
+private Result(int left, int right, long answer) {
+	super();
+	this.left = left;
+	this.right = right;
+	this.answer = answer;
+}
+```
+
+Una vez insertado el error se elimina.
+
+* Podemos ejecutar el archivo `App.java`
+
+   <img src="images/4-arquetipo-5.png">
+   
+   A pesar de no haberlo compilado.
+
+* Nos indica que todo a ido bien y que se ha levantado `Tomcat started on port(s): 8080 (http)`
+
+* Si accedemos a `http://localhost:8080/` veremos la ejecución de nuestro proyecto.
+
+   <img src="images/4-localhost.png">
+   
+* En caso de que no ubiera ejecutado lo que deberiamos es compilar el proyecto con Maven Install:
+
+   <img src="images/4-arquetipo-6.png">
+
+   ```sh
+   [INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   ```
+* Algun posible Error cuando creamos es un Arquetipo es que usa un JRE en lugar de un JDK, para solucionarlo entrariamos a las propiedades del proyecto en `Java Build Path` para modificarlo.
+
+* Otro posible Error que podemos encontrar al creamos es un Arquetipo es que falten dependencias, si es el caso se incluyen dentro del archivo `pom.xml` y se compila de nuevo el proyecto.
+
+* Otra cosa que puedo hacer es generar la instalación saltandose los test.
+
+   <img src="images/4-arquetipo-7.png">
+
+
+
+### Importar un proyecto existente
+
+
 
 ## Opciones de configuración disponibles 16:40 
 
