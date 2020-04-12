@@ -356,10 +356,69 @@ Una vez instalado se reinciara Eclipse.
 
    <img src="images/4-filesync-2.png">
 
-   Ademas añadimos una carpeta con el mismo nombre del proyecto y la marcamos:
+   Ademas añadimos una carpeta fuente con el mismo nombre del proyecto y la marcamos:
    
    <img src="images/4-filesync-3.png">
+   
+   También hay que añadir una carpeta destino en `Default target folder` Por ejemplo `..\tmp0\wtpwebapps\spring-boot-blank` que est aruta donde se despliegan las aplicaciones web de otro proyecto.
+   
+   Entonces lo que haria `Plugin FileSync` es que cada vez que se ejecuta build y hay cambios en la carpeta origen los copia en la carpeta destino de forma transparente. si queremos forzarlo tenemos que dar click derecho en el proyecto y dar `Force File Synchronization`  
 
+   Lo que hace este pluging es que cada que hay modificasiones en esta carpeta creada y se ejecute el build de Eclipse 
+   
+### Trabajando con dos ramas diferentes del mismo proyecto
+
+Supongamos que tenemos la siguiente estructura de dos ramas en nuestro proyecto:
+
+```
+trunk
+    backend [backend-trunk]
+        0.2-SNAPSHOT
+branches / Release
+    backend [backend-release]
+        0.2-SNAPSHOT 
+    frontend
+        0.2-SNAPSHOT 
+```
+
+Tendríamos un cuello de botella, un punto central donde se va a mezclar todo que es el repositorio local de Maven.
+si solo quisieramos desplegar el frontend también cogeria los cambios que existen en la rama trunk. Por lo que siempre tenemos que estar diferenciando las versiones de las distintas ramas, lo que sería una buena practica  ademas de ser necesario.
+
+Por lo que nuestras ramas quedarían así:
+
+La Release(Versión liberada) siempre ira por detras de la SNAPSHOT(Versión en desarrollo).
+
+```
+trunk
+    backend [backend-trunk]
+        0.2-SNAPSHOT
+branches / Release
+    backend [backend-release]
+        0.1
+    frontend
+        0.1
+```
+
+Para una posterior liberación tendríamos:
+
+```
+trunk
+    backend [backend-trunk]
+        0.3-SNAPSHOT
+branches / Release
+    backend [backend-release]
+        0.2
+    frontend
+        0.2
+```
+
+**Este es un problema muy comun, en ocaciones que no tienen la suficiente experiencia pueden tener colisiones en librerias y no saben que les pasa y es que tienen el mismo nombre en las versiones de las diferentes ramas**
+
+### Liberando versiones…
+
+Es lo que se ha visto en el punto anterior que cuando se liberan versiones no se liberan versiones SNAPSHOT, cuando se libera es una version ya testeada, que debe pasar por los servidores de prueba y llegar a producción. 
+
+Hay clientes que se pueden molestar si lo que se libera son versiones SNAPSHOT por lo que se esta haciendo ver es que lo que se ha subido no esta probado, por lo que cuando se libere a producción no deben llevar versiones SNAPSHOT.
 
 ## Ejemplo práctico: Integración de Apache con Eclipse 13:49 
 
