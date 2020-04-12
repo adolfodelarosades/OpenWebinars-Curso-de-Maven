@@ -26,15 +26,27 @@ El siguiente diagrama muestra un resumen de las librerias principales que tiene 
 
 <img src="images/5-cxf.png">
 
+Este proyecto es muy extento por que tiene librerias para Servicios REST, SOA, etc. pero un claro ejemplo de un proyecto jerarquico muy complejo.
+
+### plugins `codegen-plugin`
+
 Destaca uno de los plugins `codegen-plugin` que permite ejecutar la orden `wild the to java`, en proyectos SOA que definen contratos `wildyets`,  si te facilitan el `wildyet` de un cliente al que te tienes que integrar, utilizamos el plugins `codegen-plugin` para generar el código Java asociado al esquema del contrato y lo puedes utilizar para montarte el cliente del servicio web. 
 
-Este proyecto es muy extento por que tiene librerias para Servicios REST, SOA, etc. pero un claro ejemplo de un proyecto jerarquico muy complejo.
+En `codegen-plugin` es tiene una oden que permite convertir el contrato de servicio Web en código Java, podriamos automatizar el pipeline de maven en la ejecución de build metiendo una sintaxis de ejecución de ese plugin para que se ejecute en ciertas fases. Por ejemplo si estamos en un proyecto que monta el servicio Web y hace falta el fuente del esquema asociado a ese contrato, podriamos ejecutarlo antes de que se vaya a compilar el proyecto y que coja los fuentes generados y que lo utilice para generarlo, de esta manera no fallara la compilación, una practica muy habitual y muy limpia ya que código pesado automatizable no lo transladamos a nuestra carpeta de fuentes, sino solo lo usamos para compilar y automatizamos la descarga de ese fuente a partir de un `wildent` publicado en la URL. 
+AQUI
+
+
+#### Importar proyecto Apache CXF en Eclipse
 
 Vamos a importar el proyecto a Eclipse pero solo indicandole que nos importe solo los modulos **core** y **codegen-plugin**.
 
+Presionamos *File > Import > Maven > Existing Maven Projects* y despues indicamos la ruta donde descargamos y desempaquetamos el proyecto. Por defercto marca marca todos los proyectos para importarlos, pero solo vamos a marcar tres.
 
+<img src="images/5-maven-import.png">
 
+Nos importa el proyecto
 
+<img src="images/5-cxf-2.png">
 
 
 ## Concepto de dependencias transitivas 2:43 
