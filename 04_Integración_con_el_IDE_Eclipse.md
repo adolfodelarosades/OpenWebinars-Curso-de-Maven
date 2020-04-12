@@ -422,6 +422,157 @@ Hay clientes que se pueden molestar si lo que se libera son versiones SNAPSHOT p
 
 ## Ejemplo práctico: Integración de Apache con Eclipse 13:49 
 
+Vamos a aprovechar el proyecto creado con el arquetipo `spring-boot-blanck` y que le hemos metido como dependencia el proyecto `commons-io`.
+
+**commons-io** es una libreria de software libre que tiene funcionalidades comun de lectura de I/O, lectura de ficheros, etc. 
+
+Vamos a modificar nuestro proyecto para que en lugar de que imprima `Hello Wordl`, imprima el nombre de un archivo PDF y el tamaño que ocupa en KBytes, usando `commons-io`.
+
+* Vamos a modificar el archivo `HelloController.java`
+
+```java
+import lombok.Data;
+
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+	
+	
+	private static final String FILEPATH_PPT="/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/pdfs/1.1_Presentacion.pdf";
+	
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+
+    @RequestMapping("/")
+    String hello() {
+    	
+    	File presentacion = FileUtils.getFile(FILEPATH_PPT);
+    	
+    	return presentacion == null ?  "Hello World!" : presentacion.getName() + "  [" + presentacion.length()/1024 + " KB ]";
+    	
+        //return "Hello World!";
+    }
+
+    @Data
+    static class Result {
+        private final int left;
+        private final int right;
+        private final long answer;
+		
+        private Result(int left, int right, long answer) {
+			super();
+			this.left = left;
+			this.right = right;
+			this.answer = answer;
+		}
+        
+        
+    }
+
+    // SQL sample
+    @RequestMapping("calc")
+    Result calc(@RequestParam int left, @RequestParam int right) {
+        MapSqlParameterSource source = new MapSqlParameterSource()
+                .addValue("left", left)
+                .addValue("right", right);
+        return jdbcTemplate.queryForObject("SELECT :left + :right AS answer", source,
+                (rs, rowNum) -> new Result(left, right, rs.getLong("answer")));
+    }
+}
+
+```
+
+Hemos creado una ruta con el archivo que queremos usar como referencia y posteriormente usando `FileUtils` que es importada desde `import org.apache.commons.io.FileUtils;`, nuestro proyecto  `commons-io` e incluso si le damos Ctrl + Click en esa importación nos lleva a `commons-io`. Posteriormente obtenemos el archivo y mostramos su nombre y tamaño. Todo esto lo podemos hacer gracias a `commons-io` que lo hemos metido como dependencia dentro de `spring-boot-blank`.
+
+Si ejecutamos nuestra aplicacion esta es la nueva salida:
+
+<img src="images/4-localhost-10.png">
+
+#### Vamos a desactivar la resolución del workspace
+
+<img src="images/4-desabilitar-5.png"> 
+
+* Con Click derecho en proyecto / Maven / Disable workspace Resolution
+
+   Al hacer esto los cambios que hagamos en el `commons-io` no se reflejaran automaticamente en `spring-boot-blank` hasta que instalemos el `commons-io`.
+   
+   **Lo primero que podemos observar es que si damos Ctrl + click en `import org.apache.commons.io.FileUtils;` ya no nos lleva al archivo `.java` dentro del `commons-io`, sino que nos lleva al `.class`**
+
+* Vamos a cambiar el método `getFile(final String... names)` para que siempre regrese un fichero fijo en lugar del que recibe como parámetro. Lo que necesitamos es hacer un cambio en `commons-io` y ver como no se refleja automaticamente en `spring-boot-blank` por haber desactivado la resolución del workspace.
+
+   ```java
+   public static File getFile(final String... names) {
+        Objects.requireNonNull(names, "names");
+        File file = null;
+        for (String name : names) {
+            if (file == null) {
+                file = new File(name);
+            } else {
+            	name = "/Users/adolfodelarosa/Documents/Udemy2020/Cursos/OW/Maven/pdfs/7.2_Recopilacion_consejos_y_trucos_.pdf";
+                file = new File(file, name);
+            }
+        }
+        return file;
+   }
+   ```
+
+  Si ejecutamos el proyecto `spring-boot-blank` no veremos cambio alguno.
+  
+  <img src="images/4-localhost-10.png">
+
+### Opción `Run configurations..`
+
+#### Exportar las Opciones
+
+Dentro de la barra de iconos tenemos `Run Tomcat` que si pulsamos su flechita muestra varias opciones entre ellas `Run configurations..`
+
+<img src="images/4-run-configuration.png">
+
+<img src="images/4-run-configuration-2.png">
+
+En esta ventana tenemos un apartado `Maven Build` que muestra todas las ejecuciones que estamos haciendo de Maven incluso se pueden salvar para no estarlas definiendo nuevamente y posteriormente podemos compartirlas con otro miembros del equipo de desarrollo. Esto se hace en la pestaña `commons` marcando la opción `Shared file` e indicando donde va a crear el archivo en este caso en `/commons-io` y presionamos el botón `Apply`.
+
+<img src="images/4-run-configuration-3.png">
+
+Esto lo que hace es generarnos el archivo `commons-io.lauch` el cual es un archivo xml.
+
+<img src="images/4-run-configuration-4.png">
+
+Tenemos la key `M2_RUNTIME` que se llama igual que la instalación de nuestro Maven `apache-maven` que definimos en *Preferences > Maven > Installations**, **En su momento se dijo que en el nombre que se pusiera aquí no pusieramos la versión presisamente para que este archivo pueda ser compatible con otros compañeros del equipo de desarrollo**
+
+Este archivo se sube en el repositorio de código y son usados por cualquier miembro del equipo. Cualquier compañero abre el proyecto y ya tiene las ordenes para poder ejecutarlas.
+
+#### Refresh
+
+Cuando queremos compilar un proyecto WAR hay una oden que hacemos muy manual que es despues de compilarr el proyecto es ir a la carpeta `target` y refrescarla, esta tarea la podemos automatizar si vamos a `Run configurations..` pestaña `Refresh` y marcamos la opción `Refresh resources upon completion` y ademas marcamos `specific resources` para poder marcar lo que queramos que se refresque en este caso el directorio `target`
+
+<img src="images/4-refresh.png">
+
+<img src="images/4-refresh-2.png">
+
+Esto a Eclipse le viene muy bien - es un comportamiento tedioso de Eclipse el hecho de que continuamente tengas que refrescar los ficheros del Workspace a pesar de hacerlo con Eclipse, pero el que realmente esta ejecutando el cambio es un proceso de Maven que esta hecho al margen de Eclipse, por eso esta opción de Refresh viene muy bien en muchos casos.
+
+
+### Diferentes problemas
+
+#### El puerto 8080 se queda abierto
+
+Debemos matar el proceso que se queda abierto.
+
+* Primero lo buscamos con `netstat -ano | findstr 8080`
+* Y cuando lo encontremos lo matamos con `taskkill /PID 616840` * el PID que tenga
+
+
+
 ## Contenido adicional 5
 
 [Integración con el IDE Eclipse y Apache Maven como base de ID](pdfs/4.1_Integración_con_el_IDE_Eclipse_y_Apache_Maven.pdf)
