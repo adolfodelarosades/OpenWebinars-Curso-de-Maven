@@ -528,10 +528,24 @@ Si ejecutamos nuestra aplicacion esta es la nueva salida:
   Si ejecutamos el proyecto `spring-boot-blank` no veremos cambio alguno.
   
   <img src="images/4-localhost-10.png">
-
+  
+  Necesitamos compilar el proyecto `commons-io`:
+  
+  <img src="images/4-compilar-commons-io.png">
+  
+  * Con esto la libreria ya esta disponible el repositorio local.
+  
+  * Necesitamos actualizar las dependencias de `spring-boot-blank` para que tenga el cambio
+  
+     Sin hacer un `clean install` en `spring-boot-blank` damos la opción *Maven > Update Project*   y marcamos la opción `Force Update of Snapshots/Releases` 
+  
+  * Ejecutamos para ver que ha cogido el cambio.
+  
+    **A mi no me los coge** (:
+    
 ### Opción `Run configurations..`
 
-#### Exportar las Opciones
+#### Pestaña Commons 
 
 Dentro de la barra de iconos tenemos `Run Tomcat` que si pulsamos su flechita muestra varias opciones entre ellas `Run configurations..`
 
@@ -551,7 +565,7 @@ Tenemos la key `M2_RUNTIME` que se llama igual que la instalación de nuestro Ma
 
 Este archivo se sube en el repositorio de código y son usados por cualquier miembro del equipo. Cualquier compañero abre el proyecto y ya tiene las ordenes para poder ejecutarlas.
 
-#### Refresh
+#### Pestaña Refresh
 
 Cuando queremos compilar un proyecto WAR hay una oden que hacemos muy manual que es despues de compilarr el proyecto es ir a la carpeta `target` y refrescarla, esta tarea la podemos automatizar si vamos a `Run configurations..` pestaña `Refresh` y marcamos la opción `Refresh resources upon completion` y ademas marcamos `specific resources` para poder marcar lo que queramos que se refresque en este caso el directorio `target`
 
@@ -561,6 +575,17 @@ Cuando queremos compilar un proyecto WAR hay una oden que hacemos muy manual que
 
 Esto a Eclipse le viene muy bien - es un comportamiento tedioso de Eclipse el hecho de que continuamente tengas que refrescar los ficheros del Workspace a pesar de hacerlo con Eclipse, pero el que realmente esta ejecutando el cambio es un proceso de Maven que esta hecho al margen de Eclipse, por eso esta opción de Refresh viene muy bien en muchos casos.
 
+#### Pestaña Jar
+
+<img src="images/4-jre.png">
+
+Con esta opción tenemos el textArea correspondiente a `VM arguments` donde podemos establecer opciones para la maquina virtual como por ejemplo aumentar la memoria, pasar parámetros, etc. También podemos cambiar la JRE que estemos usando por otra versión diferente. 
+
+#### Pestaña Main
+
+<img src="images/4-main.png">
+
+Main nos proporciona varias opciones como `Goals`, `Update Snapshots`, `Skip Tests`, `Resolve Workspace artifacts`, etc.
 
 ### Diferentes problemas
 
