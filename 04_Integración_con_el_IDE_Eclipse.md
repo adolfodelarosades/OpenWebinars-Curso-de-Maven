@@ -342,6 +342,25 @@ Pude existir una casuistica en la que las actualizaciones de los repositorios se
 
 * Liberando versiones…
 
+### Copiado de librerías de aplicaciones web en Servers durante el despliegue
+
+Ya vimos en la lección pasada una posible opción **deshabilitar la resolución de referencias de proyectos en el workspace** pero implica hacer varios pasos para que funcione lo que lo hace algo engorroso otra opción es usar el **`Plugin FileSync`**.
+
+#### Instalación del `Plugin FileSync`
+
+<img src="images/4-filesync.png">
+
+Una vez instalado se reinciara Eclipse.
+
+* Nos metemos a las propiedades del proyecto `spring-boot-blanck` en `Resorces / File synchonization` y marcamos el check `Enable FileSync builder for project`
+
+   <img src="images/4-filesync-2.png">
+
+   Ademas añadimos una carpeta con el mismo nombre del proyecto y la marcamos:
+   
+   <img src="images/4-filesync-3.png">
+
+
 ## Ejemplo práctico: Integración de Apache con Eclipse 13:49 
 
 ## Contenido adicional 5
