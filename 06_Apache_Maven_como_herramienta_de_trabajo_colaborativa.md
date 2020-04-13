@@ -40,6 +40,29 @@ Otra opción es utilizar repositorios separados unos para Releases y otro para S
 
 [Despliegue de librerías y actualizaciones automáticas](pdfs/6.2_Despliegue_de_librerías.pdf)
 
+Vamos a ver como hacer despliegues de librerias en un ambiente distribuido. Aquí ya entran varis factores por que no es igual generar una libreria en el repositorio local a ofrecer un servicio en una red corporativa o en Internet, donde cualquier persona puede hacer un Put para agregarlo en nuestro repositorio. Aquí ya existen factores relativos con seguridad etc. con lo que ltendra que autenticarse con contraseñas. 
+
+### Deploy
+
+El comando para hacer el despliegue es `deploy`
+
+<img src="images/6-deploy.png">
+
+Es bueno hacer un clean previo al deploy para borrar siempre la carpeta target y despues compilar, para empaquetar y hacer el deploy.
+
+La etiqueta `distributionManagement` que se define en el `pom.xml` nos sirve para definir los dos repositorios uno para Releases y otra para Snapshots.
+
+La autenticación se establece en el `settings.xml` ya sea en el de usuario o en el global.
+
+### Definición de los Repositorios
+
+Esto lo hacemos en el archivo `pom.xml` usemos el proyecto `file-size-viewer`.
+
+
+AQUI
+
+
+
 ## Definición de ficheros settings.xml 5:54 
 
 [Definición de ficheros settings.xml](pdfs/6.3_Definición_de_ficheros_settings.xml.pdf)
