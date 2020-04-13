@@ -331,11 +331,75 @@ Por lo tanto vamos a seguir los siguientes pasos:
 	</dependencies>
    </project>
    ```
-   AQUI
+* En el proyecto `frontend` lo que haremos es transladar la información del proyecto `spring-boot-blank` al proyecto `frontend`. Para lo cual usaremos la herramienta **Beyond Compare** 
 
+   Seleccionamos *Session > New Session > Folder Compare*.
+   Se insertan las dos rutas que se quieren comparar.
+   
+   <img src="images/5-beyond-1.png">
+   
+   Ahora vamos a excluir ciertos archivos y carpetas esto lo hacemos usando la opción `Filters`
 
+   <img src="images/5-beyond-2.png">
+   
+   Damos OK y damos un *Edit > Expand All*:
+   
+   <img src="images/5-beyond-3.png">
 
+   Ahora damos un *Edit > Select All Files*:
+   
+   <img src="images/5-beyond-4.png">
+   
+   Y posteriormente damos en *Actions > Compare Contents...*
+   
+   <img src="images/5-beyond-5.png">
+   
+   Como existe mucho codigo que solo esta en la parte de `spring-boot-blank` no se nota nada. Vamos a copiar lo que esta en este proyecto hacia `frontent` esto se hace marcando la carpeta que se quiere copiar y presionar el icono de copiar.
+   
+   <img src="images/5-beyond-6.png">
+   
+   Repetimos lo mismo para todas las carpetas que queremos copiar.
+   
+   <img src="images/5-beyond-7.png">
+   
+   Ahora vamos a comparar los dos archivos `pom.xml` presionando doble click en el nombre de uno de ellos.
+   
+   <img src="images/5-beyond-8.png">
+  
+   Lo que vamos a hacer es mantener la información del artefacto `frontend` es decir: 
+   
+   ```sh
+   <groupId>net.opemwebinars</groupId>
+   <artifactId>file-size-viewer</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   ```
+   Y lo que vamos a hacer es sobrescribir el `pom.xml` de `spring-boot-blank` al del `frontend`.
+   
+   <img src="images/5-beyond-9.png">
+   
+   Y lo que vamos a hacer es a remplazar el artefacto que habiamos copiado previamente por el que se copio en `frontend`
+    
+   <img src="images/5-beyond-10.png">
+   
+   Lo salvamos y listo.
+   
+* Asegurarse que Eclipse a cogido los cambios, por cualquier cosa damos un `refresh` en el proyecto `frontend` y ya coge todos los cambios que hicimos en el Beyond Compare. 
 
+   <img src="images/5-proyecto-modificado-1.png">
+
+   Como podemos observar nos esta marcando un error de compilación en `HelloController` ya que nos dice que las expresiones lamba son soportadas en Java 1.8, esto es por la versión de JDK.
+   
+   La cambiamos en `Java Build Path`:
+   
+   <img src="images/5-proyecto-modificado-2.png">
+  
+   Y también la cambiamos en `Java Compiler`:
+   
+   <img src="images/5-proyecto-modificado-3.png">
+   
+   
+
+   
 
 ## Contenido adicional 3
 
