@@ -397,8 +397,51 @@ Por lo tanto vamos a seguir los siguientes pasos:
    
    <img src="images/5-proyecto-modificado-3.png">
    
-   
+* Vamos a compilar toda la estructura del proyecto `file-size-viewer` y lo hacermos de forma no recursiva marcando el check.
 
+   <img src="images/5-proyecto-modificado-4.png">
+   
+   Ha ido bien
+   
+   ```sh
+   INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   ```
+   
+   Antes de volverlo a compilar sin la opción recursiva vamos a a meter una dependencia del `backend` dentro del `frontend`.
+   
+   ```js
+   <dependency>
+      <groupId>net.opemwebinars</groupId>
+      <artifactId>backend</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+   </dependency>
+   ```
+   
+   Ahora vamos a hacer un `clean package` con `Skip Test`
+   
+   <img src="images/5-proyecto-modificado-5.png">
+   
+   También ha ido bien
+   
+   ```sh
+   INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   ```
+   
+   Como esta activa la Resolucion por defecto no ha tenido problemas para encontrar la dependencia que metimos en el `frontend`.
+   
+   Ahora vamos a dar un `clean install` para tener compilado nuestro proyecto.
+   
+   <img src="images/5-proyecto-modificado-6.png">
+   
+   Finalmente refrescamos la carpeta `target` de `frontend` para que coja todos los cambios.
+   
+* Ahora ejecutamos el proyecto Spring `frontend`.
+
+   <img src="images/5-localhost-100.png">
    
 
 ## Contenido adicional 3
