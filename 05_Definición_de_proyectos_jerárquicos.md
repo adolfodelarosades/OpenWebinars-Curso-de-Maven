@@ -188,10 +188,7 @@ Como se orquestaria trabajar en un proyecto como este donde se tiene que estar c
       * `<dependencyManagement />`
    * La declaración de repositorio remoto de despliegue:
       * `<distributionManagement />`
-
-
-
-
+      
 ```
 <build>
  <pluginManagement>
@@ -232,7 +229,6 @@ Como se orquestaria trabajar en un proyecto como este donde se tiene que estar c
 </distributionManagement> 
 ```
 
-
 ### VENTAJAS VS DESVENTAJAS
 
 #### VENTAJAS
@@ -254,8 +250,92 @@ Si estan bien definidos ofrecen una visión directa a cualquier desarrollador, T
 
    Otra de las desventajas cuando trabajamos con proyectos jerarquicos a la hora de publicar los cambios en los servidores de aplicaciones aumentan las posibilidades de error y Eclipse es un compilador que tiene mucho nivel de cache y en determinados momentos esas caches no pueden enterarse de que ha existido un cambio en otro proyecto. Con lo cual tenemos que empezar a jugar con desactivar la opción de resolucion de los proyectos que estan en el workspace o bien jugar con el plugin filesync que permite tener actualizados los recursos a pesar de que Eclipse no se pueda dar cuenta. 
 
-
 ## Ejemplo práctico: Creación de un proyecto multi-módulo 15:19 
+
+Nuestro proyecto `spring-boot-blank` en este proyecto multi-módulo funcionara como el modulo Frontend. `commons-io` representara nuestro Backend para aacceder al fichero y devolver su nombre y tamaño.
+
+Por lo tanto vamos a seguir los siguientes pasos:
+
+* Crear un proyecto Maven sencillo llamado `file-size-viewer`.
+
+   <img src="images/5-projecto-file.png">
+
+   ```js
+   <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.opemwebinars</groupId>
+     <artifactId>file-size-viewer</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+     <packaging>pom</packaging>
+   </project>
+   ```
+
+* A este proyecto le vamos a crear un Maven módulo:
+
+   <img src="images/5-modulo-1.png">
+
+   <img src="images/5-modulo-2.png">
+
+   <img src="images/5-modulo-3.png">
+
+   En el `pom.xml` principal se añade el tag `module`:
+
+   ```js
+   <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.opemwebinars</groupId>
+     <artifactId>file-size-viewer</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+     <packaging>pom</packaging>
+     <modules>
+  	<module>backend</module>
+     </modules>
+   </project>
+   ```
+
+   Y se a creado la estructura del proyecto:
+
+   <img src="images/5-modulo-4.png">
+
+* Creamos el modulo `frontend`:
+
+   <img src="images/5-modulo-5.png">
+   
+* Vamos a cojer el `pom.xml` de `commons-io` y lo vamos a mezclar con el `pom.xml` `backend`. 
+
+   Marcamos los dos `pom.xml` y hacemos un `Compare With - Each Other`
+   
+   <img src="images/5-compare.png">
+   
+   <img src="images/5-compare-2.png">
+   
+* Mejor vamos a meter la dependencia de `commons-io` dentro del `backend`:
+
+   ```js
+   <project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.opemwebinars</groupId>
+		<artifactId>file-size-viewer</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>backend</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.7-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+   </project>
+   ```
+   AQUI
+
+
+
+
 
 ## Contenido adicional 3
 
