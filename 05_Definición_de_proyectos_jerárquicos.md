@@ -415,9 +415,11 @@ Por lo tanto vamos a seguir los siguientes pasos:
    <dependency>
       <groupId>net.opemwebinars</groupId>
       <artifactId>backend</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
    </dependency>
    ```
+   
+   Cuando definimos la dependencia del módulo hijo no la definimos de forma directo sino a través de una variable 
    
    Ahora vamos a hacer un `clean package` con `Skip Test`
    
