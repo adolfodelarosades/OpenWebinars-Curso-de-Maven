@@ -58,14 +58,73 @@ La autenticación se establece en el `settings.xml` ya sea en el de usuario o en
 
 Esto lo hacemos en el archivo `pom.xml` usemos el proyecto `file-size-viewer`.
 
+```html
+<repositories>
+   	<repository>
+   		<id>my_artifactory_releases</id>
+   		<url>http://slnxredesen01.alca.es.sopra:8080/artifactory/libs-release-local/</url>
+   		<releases>
+   			<enabled>true</enabled>
+   			<updatePolicy>never</updatePolicy>
+   		</releases>
+   		<snapshots>
+   			<enabled>false</enabled>
+   		</snapshots>
+   	</repository>
+   	<repository>
+   		<id>my_artifactory_snapshots</id>
+   		<url>http://slnxredesen01.alca.es.sopra:8080/artifactory/libs-snapshot-local/</url>
+   		<releases>
+   			<enabled>false</enabled>
+   		</releases>
+   		<snapshots>
+   			<enabled>true</enabled>
+   			<updatePolicy>daily</updatePolicy>
+   		</snapshots>
+   	</repository>
+</repositories>
+```
 
-AQUI
+**Para obtener actualizaciones**, tenemos dos repositorios definidos uno para Release y otro para Snapshots, con identificadores y politicas de actualizaciones distintas, cada que se tengan que descargaer las librerias iran a estos repositorios. 
 
+Todo esto se complementa con la política de distribución que es la que nos permite saber como **hacer Deploy**.
 
+```html
+<distributionManagement>
+  	<repository>
+  		<id>my_artifactory</id>
+  		<name>Release Repository</name>
+  		<url>http://slnxredesen01.alca.es.sopra:8080/artifactory/central/</url>
+  	</repository>
+  	<snapshotRepository>
+  		<id>my_artifactory</id>
+  		<name>Snapshot Repository</name>
+  		<url>http://slnxredesen01.alca.es.sopra:8080/artifactory/central/</url>
+  	</snapshotRepository>
+</distributionManagement>
+```
+
+Aquí hemos definido los repositorios en el `pom.xml` pero muchas veces es mejor definirlos en el `settings.xml` global del proyecto para tenerlo más centralizado y de esta manera tabién podremos definir un `mirror` que se convierte como una especie de proxy o pasarela por donde toda la instalación de Maven tiene que ir a obtener todas las librerias.
 
 ## Definición de ficheros settings.xml 5:54 
 
 [Definición de ficheros settings.xml](pdfs/6.3_Definición_de_ficheros_settings.xml.pdf)
+
+<img src="images/6-settings-1.png">
+
+Maven de partida ofrece la configuración de un unico fichero `settings.xml` que suele llamarse **Global Settings** que es el que se encuentra en la propia carpeta de instalación de Maven. En este fichero se pueden definir los Mirrows, los Servidores, el Proxy HTTP, Perfiles de Configuración, etc., este afectara a todos los proyectos que usen Maven por eso el nombre de Global. Hay otro tipo de organización de proyectos que suele ser más efectiva y es la de utilizar archivos `settings.xml` por proyecto de forma a la configuración Global definida, ¿qué se consigue con esto? Cuando tenemos una setting por proyecto y trabajamos con un repositorio distribuido que requiere autenticación, la autenticación del repositorio distribuido puede ser diferente, puede ser que en algunos casos tenga información sensible como las cuentas de usuario del directorio activo en este caso donde la seguridad debería estar más blindada no conviene tener un setting por proyecto por que mostrariamos las configuraciones de los usuarios a todos, lo que no es una buena practica. Usariamos el Setting Global donde cada usuario tendría sub-settings pero ofreceria una posibilidad de error por tener cada usuario una configuración diferente pero sería preferible que todos los miembros del proyecto trabajen con las mismas cuentas.
+
+**Ecipse al final hara una sumatoria entre el Global Setting y el User Setting para contar con la configuracón final.**
+
+La *User Setting*sería la instalación del propio usuario en la carpeta de instalación local de Maven. Aquí es donde hay que subir las credenciales, el proxy http por que puede ser que una configuración global no funcione para todos los usuarios ya que podrían trabajar en diferentes instalaciones o desde casa.
+
+Eclipse permite definir Global Settings como User Settings, al final se sumaran las dos para tener la configuración total. 
+
+Hay que entrar en las *Preferences > Maven > User Settings*.
+
+<img src="images/6-settings-2.png">
+
+Trabajar de esta manera lo que evita son esfuerzos adicionales o errores no contemplados por los usuarios. Hay que evitar el truco de trabajar todos con la misma configuración  por que cada uno trabaja de forma diferente y ahunar esfuerzos en las configuraciones comunes las cuales si deben estar historificadas bajo un fichero común de proyecto. 
 
 ## Ejemplo práctico: Despliegue de librerías en Artifactory 15:04 
 
