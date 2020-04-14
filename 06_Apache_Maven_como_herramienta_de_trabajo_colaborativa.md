@@ -128,6 +128,81 @@ Trabajar de esta manera lo que evita son esfuerzos adicionales o errores no cont
 
 ## Ejemplo práctico: Despliegue de librerías en Artifactory 15:04 
 
+Vamos a ver un ejemplo práctico de como podemos desplegar librerías en un repositorio Artifactory. 
+
+Artifactory es un producto de la empresa JFrog. Tenemos una imagen en el Docker Hub: 
+
+https://hub.docker.com/r/mattgruter/artifactory/
+
+Esta imagen la podemos bajar y ejecutar el comando siguiente para instalar:
+
+```sh
+docker pull mattgruter/artifactory
+```
+Y el siguiente para levantar el contenedor en el puerto 8080
+
+```sh
+docker run -p 8080:8080 mattgruter/artifactory
+```
+
+Este es el repositorio recien instalado con Docker, iniciando sesión como administrador,  
+
+<img src="images/6-docker-1.png">
+
+Te ofrece la zona de Admin donde se puede personalizar poniendo por ejemplo un logo de la empresa, la URL Base etc.
+
+<img src="images/6-docker-2.png">
+
+Lo normal es que en nuestra empresa tengamos un repositorio distribuido equivalente a este. 
+
+**Artifactory** es un repositorio de artefactos que permite subir dependencias y hacer de proxy contra internet a traves de repositorios remotos. Podemos dar de alta repositorios remotos o locales. Si un usuario solicita una librería no actualizada a Artifactory, este va al repositorio final la descarga, la guarda en su repositorio final y si distintos usuarios a lo largo del día van solicitando la misma librería Artifactory no va nuevamente al repositorio final sino que le da la que tiene en su repositorio local, con lo que reduce peticiones de la red corporativa haciendo que todo vaya un poco más rápido.
+
+<img src="images/6-docker-3.png">
+
+Siempre existe la opción de hacer el despliegue manual o inclusive un despliegue masivo a partir de un archivo zip. Esto lo hacemos por ejemplo de un proyecto guardando todas las librerías con el comando `dependency:copy-dependency` empaquetarlas en un zip y cargarlas desde Artifactory indicandole a que repositorio queremos subirlas. 
+
+<img src="images/6-docker-4.png">
+
+Otras cosas que se pueden hacer con Artifactory son:
+
+* Temas de cache
+* Integración SSO para autenticación 
+* Integración SAML 
+* LDAP
+* etc.
+
+En el proyecto `commons-io` podriamos insertar en el `pom.xml` la sección de `<distributionManagement>` que vismos en la lección pasada para poder hacer el despliegue de una libreía.
+
+Las credenciales de autenticación se establecerian en el settings global con:
+
+```html
+<servers>
+
+   . . .
+   
+<server>
+   <id>my_artifactory</id>
+   <username>openwebinars</username>
+   <password>123456</password>
+</server>   
+</servers>
+
+```
+
+Con esta configuración se puede ejecutar un comando `clean deploy` y con ello se subira la librería al repositorio de Artifactory. Aqui vemos ejemplos de versiones Release y Snapshops (le pone fecha y hora)
+
+<img src="images/6-docker-5.png">
+
+También podemos ver como separa las versiones Release y las Snapshop.
+
+<img src="images/6-docker-6.png">
+
+Podemos ver los diferentes artefactos contenidos en una versión subida.
+
+<img src="images/6-docker-7.png">
+
+Podemos descargarnos desde aquí la librería.
+
 ## Contenido adicional 3
 
 [Apache Maven como herramienta de trabajo colaborativa](pdfs/6.1_Apache_Maven_como_herramienta_de_trabajo_colaborativa_.pdf)
