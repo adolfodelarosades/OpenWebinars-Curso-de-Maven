@@ -130,7 +130,11 @@ Trabajar de esta manera lo que evita son esfuerzos adicionales o errores no cont
 
 Vamos a ver un ejemplo práctico de como podemos desplegar librerías en un repositorio Artifactory. 
 
-Artifactory es un producto de la empresa JFrog. Tenemos una imagen en el Docker Hub: 
+Artifactory es un producto de la empresa JFrog. 
+
+https://jfrog.com/artifactory/
+
+Tenemos una imagen en el Docker Hub: 
 
 https://hub.docker.com/r/mattgruter/artifactory/
 
